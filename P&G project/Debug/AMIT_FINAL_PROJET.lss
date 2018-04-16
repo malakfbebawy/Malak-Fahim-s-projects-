@@ -1,0 +1,1351 @@
+
+AMIT_FINAL_PROJET.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000006a0  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000120  00800060  000006a0  00000714  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000834  2**0
+                  CONTENTS, READONLY
+  3 .debug_aranges 00000200  00000000  00000000  00000864  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   000021d1  00000000  00000000  00000a64  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000bd0  00000000  00000000  00002c35  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000009bb  00000000  00000000  00003805  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  000003cc  00000000  00000000  000041c0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000007c8  00000000  00000000  0000458c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    00001000  00000000  00000000  00004d54  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000158  00000000  00000000  00005d54  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	11 e0       	ldi	r17, 0x01	; 1
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e0 ea       	ldi	r30, 0xA0	; 160
+  68:	f6 e0       	ldi	r31, 0x06	; 6
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a0 38       	cpi	r26, 0x80	; 128
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+
+00000076 <__do_clear_bss>:
+  76:	21 e0       	ldi	r18, 0x01	; 1
+  78:	a0 e8       	ldi	r26, 0x80	; 128
+  7a:	b1 e0       	ldi	r27, 0x01	; 1
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	a0 38       	cpi	r26, 0x80	; 128
+  82:	b2 07       	cpc	r27, r18
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 9a 00 	call	0x134	; 0x134 <main>
+  8a:	0c 94 4e 03 	jmp	0x69c	; 0x69c <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <usart_init>:
+	{
+		usart_string_transmit("AT+UART=57600,0,0");
+	}
+	else if(baud_rate==115200)
+	{
+		usart_string_transmit("AT+UART=115200,0,0");
+  92:	10 bc       	out	0x20, r1	; 32
+  94:	83 e3       	ldi	r24, 0x33	; 51
+  96:	89 b9       	out	0x09, r24	; 9
+  98:	8a b1       	in	r24, 0x0a	; 10
+  9a:	88 61       	ori	r24, 0x18	; 24
+	}
+	else if(baud_rate==230400)
+  9c:	8a b9       	out	0x0a, r24	; 10
+  9e:	80 b5       	in	r24, 0x20	; 32
+  a0:	86 68       	ori	r24, 0x86	; 134
+  a2:	80 bd       	out	0x20, r24	; 32
+  a4:	08 95       	ret
+
+000000a6 <usart_data_transmit>:
+  a6:	5d 9b       	sbis	0x0b, 5	; 11
+  a8:	fe cf       	rjmp	.-4      	; 0xa6 <usart_data_transmit>
+	{
+		usart_string_transmit("AT+UART=230400,0,0");
+  aa:	8c b9       	out	0x0c, r24	; 12
+  ac:	89 ef       	ldi	r24, 0xF9	; 249
+  ae:	90 e0       	ldi	r25, 0x00	; 0
+  b0:	01 97       	sbiw	r24, 0x01	; 1
+  b2:	f1 f7       	brne	.-4      	; 0xb0 <usart_data_transmit+0xa>
+	}
+	else if(baud_rate==460800)
+  b4:	00 c0       	rjmp	.+0      	; 0xb6 <usart_data_transmit+0x10>
+  b6:	00 00       	nop
+  b8:	08 95       	ret
+
+000000ba <usart_string_transmit>:
+  ba:	cf 93       	push	r28
+  bc:	df 93       	push	r29
+  be:	ec 01       	movw	r28, r24
+  c0:	88 81       	ld	r24, Y
+	{
+		usart_string_transmit("AT+UART=460800,0,0");
+  c2:	88 23       	and	r24, r24
+  c4:	31 f0       	breq	.+12     	; 0xd2 <usart_string_transmit+0x18>
+  c6:	21 96       	adiw	r28, 0x01	; 1
+  c8:	0e 94 53 00 	call	0xa6	; 0xa6 <usart_data_transmit>
+	}
+	else if(baud_rate==921600)
+  cc:	89 91       	ld	r24, Y+
+  ce:	81 11       	cpse	r24, r1
+  d0:	fb cf       	rjmp	.-10     	; 0xc8 <usart_string_transmit+0xe>
+  d2:	df 91       	pop	r29
+  d4:	cf 91       	pop	r28
+  d6:	08 95       	ret
+
+000000d8 <Peek_A_Boo>:
+  d8:	95 9a       	sbi	0x12, 5	; 18
+	{
+		usart_string_transmit("AT+UART=921600,0,0");
+  da:	00 00       	nop
+  dc:	00 00       	nop
+  de:	82 b3       	in	r24, 0x12	; 18
+  e0:	80 7c       	andi	r24, 0xC0	; 192
+  e2:	82 bb       	out	0x12, r24	; 18
+	}
+	else if(baud_rate==1382400)
+  e4:	08 95       	ret
+
+000000e6 <Send_A_Command>:
+  e6:	88 bb       	out	0x18, r24	; 24
+  e8:	82 b3       	in	r24, 0x12	; 18
+  ea:	8b 77       	andi	r24, 0x7B	; 123
+  ec:	82 bb       	out	0x12, r24	; 18
+	{
+		usart_string_transmit("AT+UART=1382400,0,0");
+  ee:	0e 94 6c 00 	call	0xd8	; 0xd8 <Peek_A_Boo>
+  f2:	18 ba       	out	0x18, r1	; 24
+  f4:	08 95       	ret
+
+000000f6 <Send_A_Character>:
+	}
+	else
+	{
+		;
+	}
+	usart_data_transmit(0x0d);
+  f6:	88 bb       	out	0x18, r24	; 24
+  f8:	97 98       	cbi	0x12, 7	; 18
+  fa:	92 9a       	sbi	0x12, 2	; 18
+	usart_data_transmit(0x0a);
+  fc:	0e 94 6c 00 	call	0xd8	; 0xd8 <Peek_A_Boo>
+ 100:	18 ba       	out	0x18, r1	; 24
+	usart_string_receive(hc_05_buffer1,13);
+ 102:	08 95       	ret
+
+00000104 <Send_A_String>:
+ 104:	cf 93       	push	r28
+ 106:	df 93       	push	r29
+ 108:	ec 01       	movw	r28, r24
+ 10a:	88 81       	ld	r24, Y
+	temp=usart_data_receive();
+ 10c:	88 23       	and	r24, r24
+ 10e:	79 f0       	breq	.+30     	; 0x12e <Send_A_String+0x2a>
+ 110:	21 96       	adiw	r28, 0x01	; 1
+ 112:	0e 94 7b 00 	call	0xf6	; 0xf6 <Send_A_Character>
+	
+	if(!(strcmp(hc_05_buffer1,"OK")))
+ 116:	2f e3       	ldi	r18, 0x3F	; 63
+ 118:	8d e0       	ldi	r24, 0x0D	; 13
+ 11a:	93 e0       	ldi	r25, 0x03	; 3
+ 11c:	21 50       	subi	r18, 0x01	; 1
+ 11e:	80 40       	sbci	r24, 0x00	; 0
+ 120:	90 40       	sbci	r25, 0x00	; 0
+ 122:	e1 f7       	brne	.-8      	; 0x11c <Send_A_String+0x18>
+ 124:	00 c0       	rjmp	.+0      	; 0x126 <Send_A_String+0x22>
+ 126:	00 00       	nop
+	}
+	else
+	{
+		return 0;
+	}
+}
+ 128:	89 91       	ld	r24, Y+
+ 12a:	81 11       	cpse	r24, r1
+	Send_A_Command(0x80 + y + (x-1)); //la2eny 3ashan at7akem fl cursor lazem ykon 0 b1000 0000 + rakam el 5ana bta3et el 3amod(bagibo mn el array) + hamshy kam 5atwa fl row tab3an -1 l2en el base zero
+}
+
+void Send_A_String(char *StringOfCharacters)
+{
+	while(*StringOfCharacters > 0)
+ 12c:	f2 cf       	rjmp	.-28     	; 0x112 <Send_A_String+0xe>
+	{
+		Send_A_Character(*StringOfCharacters++);
+		_delay_ms(1000);         //
+	}
+}
+ 12e:	df 91       	pop	r29
+ 130:	cf 91       	pop	r28
+ 132:	08 95       	ret
+
+00000134 <main>:
+{
+	
+	//DDRC=0xff;
+	//DDRD|=(1<<4);   //buzzer 3la output bin
+	
+	LED_init();
+ 134:	0e 94 6e 02 	call	0x4dc	; 0x4dc <LED_init>
+	PIR_Init();
+ 138:	0e 94 ee 02 	call	0x5dc	; 0x5dc <PIR_Init>
+	LDR_Init();
+ 13c:	0e 94 48 02 	call	0x490	; 0x490 <LDR_Init>
+	usart_init();  //Blutooth /*USART initialization*/
+ 140:	0e 94 49 00 	call	0x92	; 0x92 <usart_init>
+	char *receive_string;   //buffer fady el user yemlah data bb3to ll function elly bt recieve
+	char *data_received;
+	char *ch; //data from user after token as a string
+	int soundLevelinput=1000;
+	//////////////////lcd/////////////////
+	DataDir_MrLCDsCrib = 0xFF;
+ 144:	8f ef       	ldi	r24, 0xFF	; 255
+ 146:	87 bb       	out	0x17, r24	; 23
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 148:	2f e3       	ldi	r18, 0x3F	; 63
+ 14a:	8d e0       	ldi	r24, 0x0D	; 13
+ 14c:	93 e0       	ldi	r25, 0x03	; 3
+ 14e:	21 50       	subi	r18, 0x01	; 1
+ 150:	80 40       	sbci	r24, 0x00	; 0
+ 152:	90 40       	sbci	r25, 0x00	; 0
+ 154:	e1 f7       	brne	.-8      	; 0x14e <main+0x1a>
+ 156:	00 c0       	rjmp	.+0      	; 0x158 <main+0x24>
+ 158:	00 00       	nop
+	_delay_ms(1000);
+	DataDir_MrLCDsControl |= 1<<LightSwitch | 1<<ReadWrite | 1<<BiPolarMood;  //ba7ot 1 3la ligitswitch ya3ny ba2olo el pin(5)in portD 5aliha output ya3ny keda el bins(2,5,7)in port D output
+ 15a:	81 b3       	in	r24, 0x11	; 17
+ 15c:	84 6a       	ori	r24, 0xA4	; 164
+ 15e:	81 bb       	out	0x11, r24	; 17
+ 160:	2f e9       	ldi	r18, 0x9F	; 159
+ 162:	86 e8       	ldi	r24, 0x86	; 134
+ 164:	91 e0       	ldi	r25, 0x01	; 1
+ 166:	21 50       	subi	r18, 0x01	; 1
+ 168:	80 40       	sbci	r24, 0x00	; 0
+ 16a:	90 40       	sbci	r25, 0x00	; 0
+ 16c:	e1 f7       	brne	.-8      	; 0x166 <main+0x32>
+ 16e:	00 c0       	rjmp	.+0      	; 0x170 <main+0x3c>
+ 170:	00 00       	nop
+	LED_init();
+	PIR_Init();
+	LDR_Init();
+	usart_init();  //Blutooth /*USART initialization*/
+	
+	unsigned int counter=0;
+ 172:	81 2c       	mov	r8, r1
+ 174:	91 2c       	mov	r9, r1
+ 176:	0f 2e       	mov	r0, r31
+ 178:	f4 e6       	ldi	r31, 0x64	; 100
+ 17a:	4f 2e       	mov	r4, r31
+ 17c:	f0 2d       	mov	r31, r0
+ 17e:	51 2c       	mov	r5, r1
+		  
+		  //////////////////////////////////////////////////////////////////////
+		  counter_sensor_zero_loud=0;
+		  counter_sensor_zero_low=0;
+		  counter_sensor_one_loud=0;
+		  counter_sensor_one_low=0;
+ 180:	61 2c       	mov	r6, r1
+ 182:	71 2c       	mov	r7, r1
+				  Send_A_Command(0x80 + 0);
+				  _delay_ms(50);   //50
+				  
+				  Send_A_String("Safe region ");
+				  _delay_ms(1000);
+				  counter++;
+ 184:	22 24       	eor	r2, r2
+ 186:	23 94       	inc	r2
+ 188:	31 2c       	mov	r3, r1
+	LED_init();
+	PIR_Init();
+	LDR_Init();
+	usart_init();  //Blutooth /*USART initialization*/
+	
+	unsigned int counter=0;
+ 18a:	c4 2d       	mov	r28, r4
+ 18c:	d5 2d       	mov	r29, r5
+		  
+		  //////////////////////////////////////////////////////////////////////
+		  counter_sensor_zero_loud=0;
+		  counter_sensor_zero_low=0;
+		  counter_sensor_one_loud=0;
+		  counter_sensor_one_low=0;
+ 18e:	a6 2c       	mov	r10, r6
+ 190:	b7 2c       	mov	r11, r7
+		  
+		  
+		  //////////////////////////////////////////////////////////////////////
+		  counter_sensor_zero_loud=0;
+		  counter_sensor_zero_low=0;
+		  counter_sensor_one_loud=0;
+ 192:	c6 2c       	mov	r12, r6
+ 194:	d7 2c       	mov	r13, r7
+		  //////////////////set sound level parameter by blutooth////////////////
+		  
+		  
+		  //////////////////////////////////////////////////////////////////////
+		  counter_sensor_zero_loud=0;
+		  counter_sensor_zero_low=0;
+ 196:	06 2d       	mov	r16, r6
+ 198:	17 2d       	mov	r17, r7
+		  
+		  //////////////////set sound level parameter by blutooth////////////////
+		  
+		  
+		  //////////////////////////////////////////////////////////////////////
+		  counter_sensor_zero_loud=0;
+ 19a:	e6 2c       	mov	r14, r6
+ 19c:	f7 2c       	mov	r15, r7
+		  counter_sensor_one_loud=0;
+		  counter_sensor_one_low=0;
+		  
+		    for(index=0; index<100; index++)
+			{ 
+				if( sound_READData(0) >1020 )
+ 19e:	60 e0       	ldi	r22, 0x00	; 0
+ 1a0:	70 e0       	ldi	r23, 0x00	; 0
+ 1a2:	cb 01       	movw	r24, r22
+ 1a4:	0e 94 34 03 	call	0x668	; 0x668 <sound_READData>
+ 1a8:	8d 3f       	cpi	r24, 0xFD	; 253
+ 1aa:	93 40       	sbci	r25, 0x03	; 3
+ 1ac:	20 f0       	brcs	.+8      	; 0x1b6 <main+0x82>
+				{
+				  counter_sensor_zero_loud++;
+ 1ae:	8f ef       	ldi	r24, 0xFF	; 255
+ 1b0:	e8 1a       	sub	r14, r24
+ 1b2:	f8 0a       	sbc	r15, r24
+ 1b4:	02 c0       	rjmp	.+4      	; 0x1ba <main+0x86>
+				}
+				else
+				{
+					counter_sensor_zero_low++;
+ 1b6:	0f 5f       	subi	r16, 0xFF	; 255
+ 1b8:	1f 4f       	sbci	r17, 0xFF	; 255
+				}
+				if( sound_READData(1) > 1020 )
+ 1ba:	61 e0       	ldi	r22, 0x01	; 1
+ 1bc:	70 e0       	ldi	r23, 0x00	; 0
+ 1be:	80 e0       	ldi	r24, 0x00	; 0
+ 1c0:	90 e0       	ldi	r25, 0x00	; 0
+ 1c2:	0e 94 34 03 	call	0x668	; 0x668 <sound_READData>
+ 1c6:	8d 3f       	cpi	r24, 0xFD	; 253
+ 1c8:	93 40       	sbci	r25, 0x03	; 3
+ 1ca:	20 f0       	brcs	.+8      	; 0x1d4 <main+0xa0>
+				{
+					counter_sensor_one_loud++;
+ 1cc:	8f ef       	ldi	r24, 0xFF	; 255
+ 1ce:	c8 1a       	sub	r12, r24
+ 1d0:	d8 0a       	sbc	r13, r24
+ 1d2:	03 c0       	rjmp	.+6      	; 0x1da <main+0xa6>
+				}
+				else
+				{
+					counter_sensor_one_low++;
+ 1d4:	9f ef       	ldi	r25, 0xFF	; 255
+ 1d6:	a9 1a       	sub	r10, r25
+ 1d8:	b9 0a       	sbc	r11, r25
+ 1da:	21 97       	sbiw	r28, 0x01	; 1
+		  counter_sensor_zero_loud=0;
+		  counter_sensor_zero_low=0;
+		  counter_sensor_one_loud=0;
+		  counter_sensor_one_low=0;
+		  
+		    for(index=0; index<100; index++)
+ 1dc:	20 97       	sbiw	r28, 0x00	; 0
+ 1de:	f9 f6       	brne	.-66     	; 0x19e <main+0x6a>
+			  
+		  
+		       //safe side 
+			
+			
+			if( (counter_sensor_zero_low>counter_sensor_zero_loud) && (counter_sensor_one_low>counter_sensor_one_loud) )
+ 1e0:	e0 16       	cp	r14, r16
+ 1e2:	f1 06       	cpc	r15, r17
+ 1e4:	08 f0       	brcs	.+2      	; 0x1e8 <main+0xb4>
+ 1e6:	43 c0       	rjmp	.+134    	; 0x26e <main+0x13a>
+ 1e8:	ca 14       	cp	r12, r10
+ 1ea:	db 04       	cpc	r13, r11
+ 1ec:	08 f0       	brcs	.+2      	; 0x1f0 <main+0xbc>
+ 1ee:	3f c0       	rjmp	.+126    	; 0x26e <main+0x13a>
+		    {
+			
+			 
+			 
+		    //PORTD&=(~(1<<4));   //turn off buzzer el buzzer b2a 3la el led
+			 set_led(1,ON);   //green led
+ 1f0:	4f ef       	ldi	r20, 0xFF	; 255
+ 1f2:	61 e0       	ldi	r22, 0x01	; 1
+ 1f4:	70 e0       	ldi	r23, 0x00	; 0
+ 1f6:	80 e0       	ldi	r24, 0x00	; 0
+ 1f8:	90 e0       	ldi	r25, 0x00	; 0
+ 1fa:	0e 94 c0 02 	call	0x580	; 0x580 <set_led>
+			 set_led(0,OFF);    //red led
+ 1fe:	40 e0       	ldi	r20, 0x00	; 0
+ 200:	60 e0       	ldi	r22, 0x00	; 0
+ 202:	70 e0       	ldi	r23, 0x00	; 0
+ 204:	cb 01       	movw	r24, r22
+ 206:	0e 94 c0 02 	call	0x580	; 0x580 <set_led>
+			 //set_led(2,OFF);     //motion led off   
+			 ////////////////////////lcd////////////////
+			 if(counter==0)
+ 20a:	81 14       	cp	r8, r1
+ 20c:	91 04       	cpc	r9, r1
+ 20e:	09 f0       	breq	.+2      	; 0x212 <main+0xde>
+ 210:	bc cf       	rjmp	.-136    	; 0x18a <main+0x56>
+			 {
+				  Send_A_Command(0x01); //Clear Screen 0x01 = 00000001
+ 212:	81 e0       	ldi	r24, 0x01	; 1
+ 214:	0e 94 73 00 	call	0xe6	; 0xe6 <Send_A_Command>
+ 218:	8f e4       	ldi	r24, 0x4F	; 79
+ 21a:	93 ec       	ldi	r25, 0xC3	; 195
+ 21c:	01 97       	sbiw	r24, 0x01	; 1
+ 21e:	f1 f7       	brne	.-4      	; 0x21c <main+0xe8>
+ 220:	00 c0       	rjmp	.+0      	; 0x222 <main+0xee>
+ 222:	00 00       	nop
+				  _delay_ms(200);  //2000
+				  Send_A_Command(0x38);  // Letting micro controller to know there are 8 bits of data
+ 224:	88 e3       	ldi	r24, 0x38	; 56
+ 226:	0e 94 73 00 	call	0xe6	; 0xe6 <Send_A_Command>
+ 22a:	8f e4       	ldi	r24, 0x4F	; 79
+ 22c:	93 ec       	ldi	r25, 0xC3	; 195
+ 22e:	01 97       	sbiw	r24, 0x01	; 1
+ 230:	f1 f7       	brne	.-4      	; 0x22e <main+0xfa>
+ 232:	00 c0       	rjmp	.+0      	; 0x234 <main+0x100>
+ 234:	00 00       	nop
+				  _delay_ms(200);            //  1000The previous command need delay b 50
+				  Send_A_Command(0b00001110);  // (1110) mn el shemal ll yemin First 1 for starting the LED,second for the display on,third for cursor on and , fourth for Blinking cursor
+ 236:	8e e0       	ldi	r24, 0x0E	; 14
+ 238:	0e 94 73 00 	call	0xe6	; 0xe6 <Send_A_Command>
+				  
+				  // _delay_ms(1000);     //The previous command need 50 ms
+				  
+				  Send_A_Command(0x80 + 0);
+ 23c:	80 e8       	ldi	r24, 0x80	; 128
+ 23e:	0e 94 73 00 	call	0xe6	; 0xe6 <Send_A_Command>
+ 242:	83 ed       	ldi	r24, 0xD3	; 211
+ 244:	90 e3       	ldi	r25, 0x30	; 48
+ 246:	01 97       	sbiw	r24, 0x01	; 1
+ 248:	f1 f7       	brne	.-4      	; 0x246 <main+0x112>
+ 24a:	00 c0       	rjmp	.+0      	; 0x24c <main+0x118>
+ 24c:	00 00       	nop
+				  _delay_ms(50);   //50
+				  
+				  Send_A_String("Safe region ");
+ 24e:	8c e3       	ldi	r24, 0x3C	; 60
+ 250:	91 e0       	ldi	r25, 0x01	; 1
+ 252:	0e 94 82 00 	call	0x104	; 0x104 <Send_A_String>
+ 256:	9f e3       	ldi	r25, 0x3F	; 63
+ 258:	2d e0       	ldi	r18, 0x0D	; 13
+ 25a:	83 e0       	ldi	r24, 0x03	; 3
+ 25c:	91 50       	subi	r25, 0x01	; 1
+ 25e:	20 40       	sbci	r18, 0x00	; 0
+ 260:	80 40       	sbci	r24, 0x00	; 0
+ 262:	e1 f7       	brne	.-8      	; 0x25c <main+0x128>
+ 264:	00 c0       	rjmp	.+0      	; 0x266 <main+0x132>
+ 266:	00 00       	nop
+				  _delay_ms(1000);
+				  counter++;
+ 268:	82 2c       	mov	r8, r2
+ 26a:	93 2c       	mov	r9, r3
+ 26c:	8e cf       	rjmp	.-228    	; 0x18a <main+0x56>
+		     
+			}//end if of safe side
+		  
+		  else 
+		  {
+			  	  if(PIR_READData(0)!=0)
+ 26e:	60 e0       	ldi	r22, 0x00	; 0
+ 270:	70 e0       	ldi	r23, 0x00	; 0
+ 272:	cb 01       	movw	r24, r22
+ 274:	0e 94 0e 03 	call	0x61c	; 0x61c <PIR_READData>
+ 278:	89 2b       	or	r24, r25
+ 27a:	89 f0       	breq	.+34     	; 0x29e <main+0x16a>
+			  	  {
+				  	  
+				  	  
+				  	  set_led(2,ON);
+ 27c:	4f ef       	ldi	r20, 0xFF	; 255
+ 27e:	62 e0       	ldi	r22, 0x02	; 2
+ 280:	70 e0       	ldi	r23, 0x00	; 0
+ 282:	80 e0       	ldi	r24, 0x00	; 0
+ 284:	90 e0       	ldi	r25, 0x00	; 0
+ 286:	0e 94 c0 02 	call	0x580	; 0x580 <set_led>
+ 28a:	9f e7       	ldi	r25, 0x7F	; 127
+ 28c:	2a e1       	ldi	r18, 0x1A	; 26
+ 28e:	86 e0       	ldi	r24, 0x06	; 6
+ 290:	91 50       	subi	r25, 0x01	; 1
+ 292:	20 40       	sbci	r18, 0x00	; 0
+ 294:	80 40       	sbci	r24, 0x00	; 0
+ 296:	e1 f7       	brne	.-8      	; 0x290 <main+0x15c>
+ 298:	00 c0       	rjmp	.+0      	; 0x29a <main+0x166>
+ 29a:	00 00       	nop
+ 29c:	07 c0       	rjmp	.+14     	; 0x2ac <main+0x178>
+				  	  
+				  	  
+			  	  }
+			  	  else
+			  	  {
+				  	  set_led(2,OFF);
+ 29e:	40 e0       	ldi	r20, 0x00	; 0
+ 2a0:	62 e0       	ldi	r22, 0x02	; 2
+ 2a2:	70 e0       	ldi	r23, 0x00	; 0
+ 2a4:	80 e0       	ldi	r24, 0x00	; 0
+ 2a6:	90 e0       	ldi	r25, 0x00	; 0
+ 2a8:	0e 94 c0 02 	call	0x580	; 0x580 <set_led>
+{
+	return usart_data_receive();
+}
+void hc_05_bluetooth_transmit_string(char *transmit_string)
+{
+	usart_string_transmit(transmit_string);
+ 2ac:	89 e4       	ldi	r24, 0x49	; 73
+ 2ae:	91 e0       	ldi	r25, 0x01	; 1
+ 2b0:	0e 94 5d 00 	call	0xba	; 0xba <usart_string_transmit>
+unsigned  char hc_05_bluetooth_pin_change(char *new_pin);
+
+
+void hc_05_bluetooth_transmit_byte(char data_byte)
+{
+	usart_data_transmit(data_byte);
+ 2b4:	8d e0       	ldi	r24, 0x0D	; 13
+ 2b6:	0e 94 53 00 	call	0xa6	; 0xa6 <usart_data_transmit>
+ 2ba:	8a e0       	ldi	r24, 0x0A	; 10
+ 2bc:	0e 94 53 00 	call	0xa6	; 0xa6 <usart_data_transmit>
+			  /*Transmits New Line to Bluetooth Module for new line*/
+			  
+			  counter=0;
+			  
+		
+			set_led(1,OFF);  //green off
+ 2c0:	40 e0       	ldi	r20, 0x00	; 0
+ 2c2:	61 e0       	ldi	r22, 0x01	; 1
+ 2c4:	70 e0       	ldi	r23, 0x00	; 0
+ 2c6:	80 e0       	ldi	r24, 0x00	; 0
+ 2c8:	90 e0       	ldi	r25, 0x00	; 0
+ 2ca:	0e 94 c0 02 	call	0x580	; 0x580 <set_led>
+			set_led(0,ON);    //red on
+ 2ce:	4f ef       	ldi	r20, 0xFF	; 255
+ 2d0:	60 e0       	ldi	r22, 0x00	; 0
+ 2d2:	70 e0       	ldi	r23, 0x00	; 0
+ 2d4:	cb 01       	movw	r24, r22
+ 2d6:	0e 94 c0 02 	call	0x580	; 0x580 <set_led>
+			  
+			Send_A_Command(0x01); //Clear Screen 0x01 = 00000001
+ 2da:	81 e0       	ldi	r24, 0x01	; 1
+ 2dc:	0e 94 73 00 	call	0xe6	; 0xe6 <Send_A_Command>
+ 2e0:	8f e4       	ldi	r24, 0x4F	; 79
+ 2e2:	93 ec       	ldi	r25, 0xC3	; 195
+ 2e4:	01 97       	sbiw	r24, 0x01	; 1
+ 2e6:	f1 f7       	brne	.-4      	; 0x2e4 <main+0x1b0>
+ 2e8:	00 c0       	rjmp	.+0      	; 0x2ea <main+0x1b6>
+ 2ea:	00 00       	nop
+			 _delay_ms(200);  //2000
+			 Send_A_Command(0x38);  // Letting micro controller to know there are 8 bits of data
+ 2ec:	88 e3       	ldi	r24, 0x38	; 56
+ 2ee:	0e 94 73 00 	call	0xe6	; 0xe6 <Send_A_Command>
+ 2f2:	8f e4       	ldi	r24, 0x4F	; 79
+ 2f4:	93 ec       	ldi	r25, 0xC3	; 195
+ 2f6:	01 97       	sbiw	r24, 0x01	; 1
+ 2f8:	f1 f7       	brne	.-4      	; 0x2f6 <main+0x1c2>
+ 2fa:	00 c0       	rjmp	.+0      	; 0x2fc <main+0x1c8>
+ 2fc:	00 00       	nop
+			_delay_ms(200);            //  1000The previous command need delay b 50
+			 Send_A_Command(0b00001110);  // (1110) mn el shemal ll yemin First 1 for starting the LED,second for the display on,third for cursor on and , fourth for Blinking cursor
+ 2fe:	8e e0       	ldi	r24, 0x0E	; 14
+ 300:	0e 94 73 00 	call	0xe6	; 0xe6 <Send_A_Command>
+			 Send_A_Command(0x80 + 0);
+ 304:	80 e8       	ldi	r24, 0x80	; 128
+ 306:	0e 94 73 00 	call	0xe6	; 0xe6 <Send_A_Command>
+ 30a:	83 ed       	ldi	r24, 0xD3	; 211
+ 30c:	90 e3       	ldi	r25, 0x30	; 48
+ 30e:	01 97       	sbiw	r24, 0x01	; 1
+ 310:	f1 f7       	brne	.-4      	; 0x30e <main+0x1da>
+ 312:	00 c0       	rjmp	.+0      	; 0x314 <main+0x1e0>
+ 314:	00 00       	nop
+			 _delay_ms(50);   //50
+			   
+			 Send_A_String("Dangerous region ");
+ 316:	8c e5       	ldi	r24, 0x5C	; 92
+ 318:	91 e0       	ldi	r25, 0x01	; 1
+ 31a:	0e 94 82 00 	call	0x104	; 0x104 <Send_A_String>
+ 31e:	9f e3       	ldi	r25, 0x3F	; 63
+ 320:	2d e0       	ldi	r18, 0x0D	; 13
+ 322:	83 e0       	ldi	r24, 0x03	; 3
+ 324:	91 50       	subi	r25, 0x01	; 1
+ 326:	20 40       	sbci	r18, 0x00	; 0
+ 328:	80 40       	sbci	r24, 0x00	; 0
+ 32a:	e1 f7       	brne	.-8      	; 0x324 <main+0x1f0>
+ 32c:	00 c0       	rjmp	.+0      	; 0x32e <main+0x1fa>
+ 32e:	00 00       	nop
+			  /*Transmits Carriage return to Bluetooth Module*/
+			  
+			  hc_05_bluetooth_transmit_byte(0x0a);
+			  /*Transmits New Line to Bluetooth Module for new line*/
+			  
+			  counter=0;
+ 330:	86 2c       	mov	r8, r6
+ 332:	97 2c       	mov	r9, r7
+ 334:	2a cf       	rjmp	.-428    	; 0x18a <main+0x56>
+
+00000336 <GPIO_Init>:
+
+#define SET_REG_DATA(REG,DATA,MASK) REG = (REG & ~MASK) | (DATA & MASK) //read then write  
+
+
+void GPIO_Init(const GPIO_InitType* InitParamPtr)
+{
+ 336:	fc 01       	movw	r30, r24
+	switch(InitParamPtr->PortName)
+ 338:	80 81       	ld	r24, Z
+ 33a:	81 30       	cpi	r24, 0x01	; 1
+ 33c:	e1 f0       	breq	.+56     	; 0x376 <GPIO_Init+0x40>
+ 33e:	30 f0       	brcs	.+12     	; 0x34c <GPIO_Init+0x16>
+ 340:	82 30       	cpi	r24, 0x02	; 2
+ 342:	71 f1       	breq	.+92     	; 0x3a0 <GPIO_Init+0x6a>
+ 344:	83 30       	cpi	r24, 0x03	; 3
+ 346:	09 f4       	brne	.+2      	; 0x34a <GPIO_Init+0x14>
+ 348:	40 c0       	rjmp	.+128    	; 0x3ca <GPIO_Init+0x94>
+ 34a:	08 95       	ret
+	{
+		case PA:
+		{
+			SET_REG_DATA(DDRA,InitParamPtr->Direction,InitParamPtr->Mask);
+ 34c:	9a b3       	in	r25, 0x1a	; 26
+ 34e:	81 81       	ldd	r24, Z+1	; 0x01
+ 350:	28 2f       	mov	r18, r24
+ 352:	20 95       	com	r18
+ 354:	92 23       	and	r25, r18
+ 356:	22 81       	ldd	r18, Z+2	; 0x02
+ 358:	82 23       	and	r24, r18
+ 35a:	89 2b       	or	r24, r25
+ 35c:	8a bb       	out	0x1a, r24	; 26
+			SET_REG_DATA(PORTA,(InitParamPtr->IsPullupUsed & ~InitParamPtr->Direction),InitParamPtr->Mask);
+ 35e:	2b b3       	in	r18, 0x1b	; 27
+ 360:	81 81       	ldd	r24, Z+1	; 0x01
+ 362:	33 81       	ldd	r19, Z+3	; 0x03
+ 364:	38 23       	and	r19, r24
+ 366:	92 81       	ldd	r25, Z+2	; 0x02
+ 368:	90 95       	com	r25
+ 36a:	93 23       	and	r25, r19
+ 36c:	80 95       	com	r24
+ 36e:	82 23       	and	r24, r18
+ 370:	89 2b       	or	r24, r25
+ 372:	8b bb       	out	0x1b, r24	; 27
+		}
+		break;
+ 374:	08 95       	ret
+		
+		case PB:
+		{
+			SET_REG_DATA(DDRB,InitParamPtr->Direction,InitParamPtr->Mask);
+ 376:	97 b3       	in	r25, 0x17	; 23
+ 378:	81 81       	ldd	r24, Z+1	; 0x01
+ 37a:	28 2f       	mov	r18, r24
+ 37c:	20 95       	com	r18
+ 37e:	92 23       	and	r25, r18
+ 380:	22 81       	ldd	r18, Z+2	; 0x02
+ 382:	82 23       	and	r24, r18
+ 384:	89 2b       	or	r24, r25
+ 386:	87 bb       	out	0x17, r24	; 23
+			SET_REG_DATA(PORTB,(InitParamPtr->IsPullupUsed& ~InitParamPtr->Direction),InitParamPtr->Mask);			
+ 388:	28 b3       	in	r18, 0x18	; 24
+ 38a:	81 81       	ldd	r24, Z+1	; 0x01
+ 38c:	33 81       	ldd	r19, Z+3	; 0x03
+ 38e:	38 23       	and	r19, r24
+ 390:	92 81       	ldd	r25, Z+2	; 0x02
+ 392:	90 95       	com	r25
+ 394:	93 23       	and	r25, r19
+ 396:	80 95       	com	r24
+ 398:	82 23       	and	r24, r18
+ 39a:	89 2b       	or	r24, r25
+ 39c:	88 bb       	out	0x18, r24	; 24
+		}
+		break;
+ 39e:	08 95       	ret
+		case PC:
+		{
+			SET_REG_DATA(DDRC,InitParamPtr->Direction,InitParamPtr->Mask);
+ 3a0:	94 b3       	in	r25, 0x14	; 20
+ 3a2:	81 81       	ldd	r24, Z+1	; 0x01
+ 3a4:	28 2f       	mov	r18, r24
+ 3a6:	20 95       	com	r18
+ 3a8:	92 23       	and	r25, r18
+ 3aa:	22 81       	ldd	r18, Z+2	; 0x02
+ 3ac:	82 23       	and	r24, r18
+ 3ae:	89 2b       	or	r24, r25
+ 3b0:	84 bb       	out	0x14, r24	; 20
+			SET_REG_DATA(PORTC,(InitParamPtr->IsPullupUsed& ~InitParamPtr->Direction),InitParamPtr->Mask);			
+ 3b2:	25 b3       	in	r18, 0x15	; 21
+ 3b4:	81 81       	ldd	r24, Z+1	; 0x01
+ 3b6:	33 81       	ldd	r19, Z+3	; 0x03
+ 3b8:	38 23       	and	r19, r24
+ 3ba:	92 81       	ldd	r25, Z+2	; 0x02
+ 3bc:	90 95       	com	r25
+ 3be:	93 23       	and	r25, r19
+ 3c0:	80 95       	com	r24
+ 3c2:	82 23       	and	r24, r18
+ 3c4:	89 2b       	or	r24, r25
+ 3c6:	85 bb       	out	0x15, r24	; 21
+		}
+		break;
+ 3c8:	08 95       	ret
+		case PD:
+		{
+			SET_REG_DATA(DDRD,InitParamPtr->Direction,InitParamPtr->Mask);
+ 3ca:	91 b3       	in	r25, 0x11	; 17
+ 3cc:	81 81       	ldd	r24, Z+1	; 0x01
+ 3ce:	28 2f       	mov	r18, r24
+ 3d0:	20 95       	com	r18
+ 3d2:	92 23       	and	r25, r18
+ 3d4:	22 81       	ldd	r18, Z+2	; 0x02
+ 3d6:	82 23       	and	r24, r18
+ 3d8:	89 2b       	or	r24, r25
+ 3da:	81 bb       	out	0x11, r24	; 17
+			SET_REG_DATA(PORTD,(InitParamPtr->IsPullupUsed & ~InitParamPtr->Direction),InitParamPtr->Mask);			
+ 3dc:	22 b3       	in	r18, 0x12	; 18
+ 3de:	81 81       	ldd	r24, Z+1	; 0x01
+ 3e0:	33 81       	ldd	r19, Z+3	; 0x03
+ 3e2:	38 23       	and	r19, r24
+ 3e4:	92 81       	ldd	r25, Z+2	; 0x02
+ 3e6:	90 95       	com	r25
+ 3e8:	93 23       	and	r25, r19
+ 3ea:	80 95       	com	r24
+ 3ec:	82 23       	and	r24, r18
+ 3ee:	89 2b       	or	r24, r25
+ 3f0:	82 bb       	out	0x12, r24	; 18
+ 3f2:	08 95       	ret
+
+000003f4 <GPIO_Write>:
+		}
+		break;
+	}
+}
+void GPIO_Write(const GPIO_WriteType* WriteParamPtr)
+{
+ 3f4:	fc 01       	movw	r30, r24
+	switch(WriteParamPtr->PortName)
+ 3f6:	80 81       	ld	r24, Z
+ 3f8:	81 30       	cpi	r24, 0x01	; 1
+ 3fa:	81 f0       	breq	.+32     	; 0x41c <GPIO_Write+0x28>
+ 3fc:	28 f0       	brcs	.+10     	; 0x408 <GPIO_Write+0x14>
+ 3fe:	82 30       	cpi	r24, 0x02	; 2
+ 400:	b9 f0       	breq	.+46     	; 0x430 <GPIO_Write+0x3c>
+ 402:	83 30       	cpi	r24, 0x03	; 3
+ 404:	f9 f0       	breq	.+62     	; 0x444 <GPIO_Write+0x50>
+ 406:	08 95       	ret
+	{
+		case PA:
+		{
+			SET_REG_DATA(PORTA,WriteParamPtr->Data,WriteParamPtr->Mask);
+ 408:	9b b3       	in	r25, 0x1b	; 27
+ 40a:	81 81       	ldd	r24, Z+1	; 0x01
+ 40c:	28 2f       	mov	r18, r24
+ 40e:	20 95       	com	r18
+ 410:	92 23       	and	r25, r18
+ 412:	22 81       	ldd	r18, Z+2	; 0x02
+ 414:	82 23       	and	r24, r18
+ 416:	89 2b       	or	r24, r25
+ 418:	8b bb       	out	0x1b, r24	; 27
+		}
+		break;
+ 41a:	08 95       	ret
+		
+		case PB:
+		{
+			SET_REG_DATA(PORTB,WriteParamPtr->Data,WriteParamPtr->Mask);
+ 41c:	98 b3       	in	r25, 0x18	; 24
+ 41e:	81 81       	ldd	r24, Z+1	; 0x01
+ 420:	28 2f       	mov	r18, r24
+ 422:	20 95       	com	r18
+ 424:	92 23       	and	r25, r18
+ 426:	22 81       	ldd	r18, Z+2	; 0x02
+ 428:	82 23       	and	r24, r18
+ 42a:	89 2b       	or	r24, r25
+ 42c:	88 bb       	out	0x18, r24	; 24
+		}
+		break;
+ 42e:	08 95       	ret
+		case PC:
+		{
+			SET_REG_DATA(PORTC,WriteParamPtr->Data,WriteParamPtr->Mask);
+ 430:	95 b3       	in	r25, 0x15	; 21
+ 432:	81 81       	ldd	r24, Z+1	; 0x01
+ 434:	28 2f       	mov	r18, r24
+ 436:	20 95       	com	r18
+ 438:	92 23       	and	r25, r18
+ 43a:	22 81       	ldd	r18, Z+2	; 0x02
+ 43c:	82 23       	and	r24, r18
+ 43e:	89 2b       	or	r24, r25
+ 440:	85 bb       	out	0x15, r24	; 21
+		}
+		break;
+ 442:	08 95       	ret
+		case PD:
+		{
+			SET_REG_DATA(PORTD,WriteParamPtr->Data,WriteParamPtr->Mask);
+ 444:	92 b3       	in	r25, 0x12	; 18
+ 446:	81 81       	ldd	r24, Z+1	; 0x01
+ 448:	28 2f       	mov	r18, r24
+ 44a:	20 95       	com	r18
+ 44c:	92 23       	and	r25, r18
+ 44e:	22 81       	ldd	r18, Z+2	; 0x02
+ 450:	82 23       	and	r24, r18
+ 452:	89 2b       	or	r24, r25
+ 454:	82 bb       	out	0x12, r24	; 18
+ 456:	08 95       	ret
+
+00000458 <GPIO_Read>:
+		break;
+	}	
+}
+
+unsigned char GPIO_Read(const GPIO_ReadType* ReadParamPtr)
+{
+ 458:	fc 01       	movw	r30, r24
+	unsigned char Data;
+	switch(ReadParamPtr->PortName)
+ 45a:	80 81       	ld	r24, Z
+ 45c:	81 30       	cpi	r24, 0x01	; 1
+ 45e:	51 f0       	breq	.+20     	; 0x474 <__stack+0x15>
+ 460:	28 f0       	brcs	.+10     	; 0x46c <__stack+0xd>
+ 462:	82 30       	cpi	r24, 0x02	; 2
+ 464:	59 f0       	breq	.+22     	; 0x47c <__stack+0x1d>
+ 466:	83 30       	cpi	r24, 0x03	; 3
+ 468:	69 f0       	breq	.+26     	; 0x484 <__stack+0x25>
+ 46a:	10 c0       	rjmp	.+32     	; 0x48c <__stack+0x2d>
+	{
+		case PA:
+		{
+			Data = PINA & ReadParamPtr->Mask;
+ 46c:	99 b3       	in	r25, 0x19	; 25
+ 46e:	81 81       	ldd	r24, Z+1	; 0x01
+ 470:	89 23       	and	r24, r25
+		}
+		break;
+ 472:	08 95       	ret
+		case PB:
+		{
+			Data = PINB & ReadParamPtr->Mask;
+ 474:	96 b3       	in	r25, 0x16	; 22
+ 476:	81 81       	ldd	r24, Z+1	; 0x01
+ 478:	89 23       	and	r24, r25
+		}
+		break;
+ 47a:	08 95       	ret
+		case PC:
+		{
+			Data = PINC & ReadParamPtr->Mask;
+ 47c:	93 b3       	in	r25, 0x13	; 19
+ 47e:	81 81       	ldd	r24, Z+1	; 0x01
+ 480:	89 23       	and	r24, r25
+		}
+		break;
+ 482:	08 95       	ret
+		case PD:
+		{
+			Data = PIND & ReadParamPtr->Mask;
+ 484:	90 b3       	in	r25, 0x10	; 16
+ 486:	81 81       	ldd	r24, Z+1	; 0x01
+ 488:	89 23       	and	r24, r25
+		}
+		break;
+ 48a:	08 95       	ret
+		default:
+		{
+			Data = 0;
+ 48c:	80 e0       	ldi	r24, 0x00	; 0
+		}
+		break;
+	}
+	return Data;
+}
+ 48e:	08 95       	ret
+
+00000490 <LDR_Init>:
+#define F_CPU 16000000UL
+
+extern const LDR_ConfigType LDR_ConfigParam[LDR_MAX_NUM];
+
+void LDR_Init(void)
+{
+ 490:	cf 93       	push	r28
+ 492:	df 93       	push	r29
+ 494:	00 d0       	rcall	.+0      	; 0x496 <LDR_Init+0x6>
+ 496:	00 d0       	rcall	.+0      	; 0x498 <LDR_Init+0x8>
+ 498:	cd b7       	in	r28, 0x3d	; 61
+ 49a:	de b7       	in	r29, 0x3e	; 62
+	unsigned long int LoopIndex;
+	GPIO_InitType ldrParam;
+	//GPIO_WriteType LedWrtParam;
+	ldrParam.Direction = 0x00;   //ldr metwasal 3la pin input
+ 49c:	1b 82       	std	Y+3, r1	; 0x03
+	ldrParam.IsPullupUsed = 0x00;
+ 49e:	1c 82       	std	Y+4, r1	; 0x04
+	
+	for(LoopIndex = 0; LoopIndex < LDR_MAX_NUM; LoopIndex ++)
+	{
+		/*Init LEDs Direcion*/
+		ldrParam.Mask = 1 << LDR_ConfigParam[LoopIndex].ldrPin;
+ 4a0:	81 e0       	ldi	r24, 0x01	; 1
+ 4a2:	90 e0       	ldi	r25, 0x00	; 0
+ 4a4:	00 90 6f 01 	lds	r0, 0x016F
+ 4a8:	02 c0       	rjmp	.+4      	; 0x4ae <LDR_Init+0x1e>
+ 4aa:	88 0f       	add	r24, r24
+ 4ac:	99 1f       	adc	r25, r25
+ 4ae:	0a 94       	dec	r0
+ 4b0:	e2 f7       	brpl	.-8      	; 0x4aa <LDR_Init+0x1a>
+ 4b2:	8a 83       	std	Y+2, r24	; 0x02
+		ldrParam.PortName = LDR_ConfigParam[LoopIndex].ldrPort;
+ 4b4:	80 91 6e 01 	lds	r24, 0x016E
+ 4b8:	89 83       	std	Y+1, r24	; 0x01
+		GPIO_Init(&ldrParam);
+ 4ba:	ce 01       	movw	r24, r28
+ 4bc:	01 96       	adiw	r24, 0x01	; 1
+ 4be:	0e 94 9b 01 	call	0x336	; 0x336 <GPIO_Init>
+		
+	}
+/*ADC init (Generic)*/
+	ADCSRA |= ((1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0));   // 16Mhz/128 = 125Khz the ADC reference clock
+ 4c2:	86 b1       	in	r24, 0x06	; 6
+ 4c4:	87 60       	ori	r24, 0x07	; 7
+ 4c6:	86 b9       	out	0x06, r24	; 6
+	ADMUX |= (1<<REFS0); // Voltage reference from Avcc (5v)
+ 4c8:	3e 9a       	sbi	0x07, 6	; 7
+	ADCSRA |= (1<<ADEN); // Turn on ADC
+ 4ca:	37 9a       	sbi	0x06, 7	; 6
+	ADCSRA |= (1<<ADSC); // Do an initial conversion because this one is the slowest and to ensure that everything is up and running
+ 4cc:	36 9a       	sbi	0x06, 6	; 6
+}
+ 4ce:	0f 90       	pop	r0
+ 4d0:	0f 90       	pop	r0
+ 4d2:	0f 90       	pop	r0
+ 4d4:	0f 90       	pop	r0
+ 4d6:	df 91       	pop	r29
+ 4d8:	cf 91       	pop	r28
+ 4da:	08 95       	ret
+
+000004dc <LED_init>:
+#include"LED.h"
+#include"GPIO.h"
+#include "LED_cfg.h"
+extern const LED_configtype led_configparam_arr [max_num_led];
+void LED_init()
+{
+ 4dc:	9f 92       	push	r9
+ 4de:	af 92       	push	r10
+ 4e0:	bf 92       	push	r11
+ 4e2:	cf 92       	push	r12
+ 4e4:	df 92       	push	r13
+ 4e6:	ef 92       	push	r14
+ 4e8:	ff 92       	push	r15
+ 4ea:	0f 93       	push	r16
+ 4ec:	1f 93       	push	r17
+ 4ee:	cf 93       	push	r28
+ 4f0:	df 93       	push	r29
+ 4f2:	cd b7       	in	r28, 0x3d	; 61
+ 4f4:	de b7       	in	r29, 0x3e	; 62
+ 4f6:	27 97       	sbiw	r28, 0x07	; 7
+ 4f8:	0f b6       	in	r0, 0x3f	; 63
+ 4fa:	f8 94       	cli
+ 4fc:	de bf       	out	0x3e, r29	; 62
+ 4fe:	0f be       	out	0x3f, r0	; 63
+ 500:	cd bf       	out	0x3d, r28	; 61
+	GPIO_InitType ledparam;      //safir mn el layer elly t7t yetmely 3ashan yro7 ll layer elly t7t
+	unsigned long int loopindex;
+	GPIO_WriteType ledwrparam;
+	
+	ledparam.Direction=0xff;   //kol el led output leza a7san a5aliha parra el loop
+ 502:	8f ef       	ldi	r24, 0xFF	; 255
+ 504:	8b 83       	std	Y+3, r24	; 0x03
+	ledparam.IsPullupUsed=0x00; //talam el led output so akid mafish pyll up l2eb pull up m3 el input
+ 506:	1c 82       	std	Y+4, r1	; 0x04
+ 508:	02 e7       	ldi	r16, 0x72	; 114
+ 50a:	11 e0       	ldi	r17, 0x01	; 1
+ 50c:	0f 2e       	mov	r0, r31
+ 50e:	fb e7       	ldi	r31, 0x7B	; 123
+ 510:	af 2e       	mov	r10, r31
+ 512:	f1 e0       	ldi	r31, 0x01	; 1
+ 514:	bf 2e       	mov	r11, r31
+ 516:	f0 2d       	mov	r31, r0
+	
+	for(loopindex=0; loopindex<max_num_led; loopindex++)
+	{
+		ledparam.PortName=led_configparam_arr[loopindex].ledport;
+		ledparam.Mask=1<<led_configparam_arr[loopindex].ledpin;
+ 518:	cc 24       	eor	r12, r12
+ 51a:	c3 94       	inc	r12
+ 51c:	d1 2c       	mov	r13, r1
+ 51e:	f8 01       	movw	r30, r16
+ 520:	32 97       	sbiw	r30, 0x02	; 2
+	ledparam.Direction=0xff;   //kol el led output leza a7san a5aliha parra el loop
+	ledparam.IsPullupUsed=0x00; //talam el led output so akid mafish pyll up l2eb pull up m3 el input
+	
+	for(loopindex=0; loopindex<max_num_led; loopindex++)
+	{
+		ledparam.PortName=led_configparam_arr[loopindex].ledport;
+ 522:	90 80       	ld	r9, Z
+ 524:	99 82       	std	Y+1, r9	; 0x01
+ 526:	31 96       	adiw	r30, 0x01	; 1
+		ledparam.Mask=1<<led_configparam_arr[loopindex].ledpin;
+ 528:	76 01       	movw	r14, r12
+ 52a:	00 80       	ld	r0, Z
+ 52c:	02 c0       	rjmp	.+4      	; 0x532 <LED_init+0x56>
+ 52e:	ee 0c       	add	r14, r14
+ 530:	ff 1c       	adc	r15, r15
+ 532:	0a 94       	dec	r0
+ 534:	e2 f7       	brpl	.-8      	; 0x52e <LED_init+0x52>
+ 536:	ea 82       	std	Y+2, r14	; 0x02
+		GPIO_Init(&ledparam);
+ 538:	ce 01       	movw	r24, r28
+ 53a:	01 96       	adiw	r24, 0x01	; 1
+ 53c:	0e 94 9b 01 	call	0x336	; 0x336 <GPIO_Init>
+		
+		/*ana 3ayez kol led fl initialization tkon matfia */
+		/*so ana 3ayez a write*/
+		
+		ledwrparam.PortName=led_configparam_arr[loopindex].ledport;
+ 540:	9d 82       	std	Y+5, r9	; 0x05
+		ledwrparam.Mask=1<<led_configparam_arr[loopindex].ledpin;
+ 542:	ee 82       	std	Y+6, r14	; 0x06
+		ledwrparam.Data=led_configparam_arr[loopindex].ledconnection;
+ 544:	f8 01       	movw	r30, r16
+ 546:	80 81       	ld	r24, Z
+ 548:	8f 83       	std	Y+7, r24	; 0x07
+		
+		GPIO_Write(&ledwrparam);
+ 54a:	ce 01       	movw	r24, r28
+ 54c:	05 96       	adiw	r24, 0x05	; 5
+ 54e:	0e 94 fa 01 	call	0x3f4	; 0x3f4 <GPIO_Write>
+ 552:	0d 5f       	subi	r16, 0xFD	; 253
+ 554:	1f 4f       	sbci	r17, 0xFF	; 255
+	GPIO_WriteType ledwrparam;
+	
+	ledparam.Direction=0xff;   //kol el led output leza a7san a5aliha parra el loop
+	ledparam.IsPullupUsed=0x00; //talam el led output so akid mafish pyll up l2eb pull up m3 el input
+	
+	for(loopindex=0; loopindex<max_num_led; loopindex++)
+ 556:	0a 15       	cp	r16, r10
+ 558:	1b 05       	cpc	r17, r11
+ 55a:	09 f7       	brne	.-62     	; 0x51e <LED_init+0x42>
+		GPIO_Write(&ledwrparam);
+		
+	}
+	
+	
+}
+ 55c:	27 96       	adiw	r28, 0x07	; 7
+ 55e:	0f b6       	in	r0, 0x3f	; 63
+ 560:	f8 94       	cli
+ 562:	de bf       	out	0x3e, r29	; 62
+ 564:	0f be       	out	0x3f, r0	; 63
+ 566:	cd bf       	out	0x3d, r28	; 61
+ 568:	df 91       	pop	r29
+ 56a:	cf 91       	pop	r28
+ 56c:	1f 91       	pop	r17
+ 56e:	0f 91       	pop	r16
+ 570:	ff 90       	pop	r15
+ 572:	ef 90       	pop	r14
+ 574:	df 90       	pop	r13
+ 576:	cf 90       	pop	r12
+ 578:	bf 90       	pop	r11
+ 57a:	af 90       	pop	r10
+ 57c:	9f 90       	pop	r9
+ 57e:	08 95       	ret
+
+00000580 <set_led>:
+
+
+unsigned char set_led(unsigned long int id,led_datatype ledData)
+{
+ 580:	cf 93       	push	r28
+ 582:	df 93       	push	r29
+ 584:	00 d0       	rcall	.+0      	; 0x586 <set_led+0x6>
+ 586:	1f 92       	push	r1
+ 588:	cd b7       	in	r28, 0x3d	; 61
+ 58a:	de b7       	in	r29, 0x3e	; 62
+	GPIO_WriteType ledwrparam;
+	unsigned char funcstate;
+	if(id<max_num_led)
+ 58c:	63 30       	cpi	r22, 0x03	; 3
+ 58e:	71 05       	cpc	r23, r1
+ 590:	81 05       	cpc	r24, r1
+ 592:	91 05       	cpc	r25, r1
+ 594:	e0 f4       	brcc	.+56     	; 0x5ce <set_led+0x4e>
+	{
+		funcstate=1;
+		ledwrparam.PortName=led_configparam_arr[id].ledport;
+ 596:	9b 01       	movw	r18, r22
+ 598:	22 0f       	add	r18, r18
+ 59a:	33 1f       	adc	r19, r19
+ 59c:	62 0f       	add	r22, r18
+ 59e:	73 1f       	adc	r23, r19
+ 5a0:	fb 01       	movw	r30, r22
+ 5a2:	e0 59       	subi	r30, 0x90	; 144
+ 5a4:	fe 4f       	sbci	r31, 0xFE	; 254
+ 5a6:	80 81       	ld	r24, Z
+ 5a8:	89 83       	std	Y+1, r24	; 0x01
+		ledwrparam.Mask=1<<led_configparam_arr[id].ledpin;
+ 5aa:	81 e0       	ldi	r24, 0x01	; 1
+ 5ac:	90 e0       	ldi	r25, 0x00	; 0
+ 5ae:	01 80       	ldd	r0, Z+1	; 0x01
+ 5b0:	02 c0       	rjmp	.+4      	; 0x5b6 <set_led+0x36>
+ 5b2:	88 0f       	add	r24, r24
+ 5b4:	99 1f       	adc	r25, r25
+ 5b6:	0a 94       	dec	r0
+ 5b8:	e2 f7       	brpl	.-8      	; 0x5b2 <set_led+0x32>
+ 5ba:	8a 83       	std	Y+2, r24	; 0x02
+		ledwrparam.Data=led_configparam_arr[id].ledconnection ^ ledData;
+ 5bc:	82 81       	ldd	r24, Z+2	; 0x02
+ 5be:	48 27       	eor	r20, r24
+ 5c0:	4b 83       	std	Y+3, r20	; 0x03
+		GPIO_Write(&ledwrparam);
+ 5c2:	ce 01       	movw	r24, r28
+ 5c4:	01 96       	adiw	r24, 0x01	; 1
+ 5c6:	0e 94 fa 01 	call	0x3f4	; 0x3f4 <GPIO_Write>
+{
+	GPIO_WriteType ledwrparam;
+	unsigned char funcstate;
+	if(id<max_num_led)
+	{
+		funcstate=1;
+ 5ca:	81 e0       	ldi	r24, 0x01	; 1
+ 5cc:	01 c0       	rjmp	.+2      	; 0x5d0 <set_led+0x50>
+		ledwrparam.Data=led_configparam_arr[id].ledconnection ^ ledData;
+		GPIO_Write(&ledwrparam);
+	}
+	else
+	{
+		funcstate=-1;
+ 5ce:	8f ef       	ldi	r24, 0xFF	; 255
+	}
+	
+	return funcstate;
+}
+ 5d0:	0f 90       	pop	r0
+ 5d2:	0f 90       	pop	r0
+ 5d4:	0f 90       	pop	r0
+ 5d6:	df 91       	pop	r29
+ 5d8:	cf 91       	pop	r28
+ 5da:	08 95       	ret
+
+000005dc <PIR_Init>:
+#include"pir.h"
+#include"GPIO.h"
+#include "pir_cfg.h"
+extern const PIR_ConfigType PIR_ConfigParam[PIR_MAX_NUM];
+void PIR_Init(void)
+{
+ 5dc:	cf 93       	push	r28
+ 5de:	df 93       	push	r29
+ 5e0:	00 d0       	rcall	.+0      	; 0x5e2 <PIR_Init+0x6>
+ 5e2:	00 d0       	rcall	.+0      	; 0x5e4 <PIR_Init+0x8>
+ 5e4:	cd b7       	in	r28, 0x3d	; 61
+ 5e6:	de b7       	in	r29, 0x3e	; 62
+	GPIO_InitType pirparam;      //safir mn el layer elly t7t yetmely 3ashan yro7 ll layer elly t7t
+	unsigned long int loopindex;
+	
+	
+	pirparam.Direction=0x00;   //pir 3la fat7a input 3ashan te2ra mno
+ 5e8:	1b 82       	std	Y+3, r1	; 0x03
+	pirparam.IsPullupUsed=0x00; //talam el led output so akid mafish pyll up l2eb pull up m3 el input
+ 5ea:	1c 82       	std	Y+4, r1	; 0x04
+	
+	for(loopindex=0; loopindex<PIR_MAX_NUM; loopindex++)
+	{
+		pirparam.PortName=PIR_ConfigParam[loopindex].pirPort;
+ 5ec:	80 91 79 01 	lds	r24, 0x0179
+ 5f0:	89 83       	std	Y+1, r24	; 0x01
+		pirparam.Mask=1<<PIR_ConfigParam[loopindex].pirPin;
+ 5f2:	81 e0       	ldi	r24, 0x01	; 1
+ 5f4:	90 e0       	ldi	r25, 0x00	; 0
+ 5f6:	00 90 7a 01 	lds	r0, 0x017A
+ 5fa:	02 c0       	rjmp	.+4      	; 0x600 <PIR_Init+0x24>
+ 5fc:	88 0f       	add	r24, r24
+ 5fe:	99 1f       	adc	r25, r25
+ 600:	0a 94       	dec	r0
+ 602:	e2 f7       	brpl	.-8      	; 0x5fc <PIR_Init+0x20>
+ 604:	8a 83       	std	Y+2, r24	; 0x02
+		GPIO_Init(&pirparam);
+ 606:	ce 01       	movw	r24, r28
+ 608:	01 96       	adiw	r24, 0x01	; 1
+ 60a:	0e 94 9b 01 	call	0x336	; 0x336 <GPIO_Init>
+		
+		
+	}
+	
+	
+}
+ 60e:	0f 90       	pop	r0
+ 610:	0f 90       	pop	r0
+ 612:	0f 90       	pop	r0
+ 614:	0f 90       	pop	r0
+ 616:	df 91       	pop	r29
+ 618:	cf 91       	pop	r28
+ 61a:	08 95       	ret
+
+0000061c <PIR_READData>:
+
+uint16_t PIR_READData(unsigned long int PIRID)
+{
+ 61c:	cf 93       	push	r28
+ 61e:	df 93       	push	r29
+ 620:	00 d0       	rcall	.+0      	; 0x622 <PIR_READData+0x6>
+ 622:	cd b7       	in	r28, 0x3d	; 61
+ 624:	de b7       	in	r29, 0x3e	; 62
+	GPIO_ReadType pir_readparam;
+	uint16_t readen_value;
+	if(PIRID<PIR_MAX_NUM)
+ 626:	67 2b       	or	r22, r23
+ 628:	68 2b       	or	r22, r24
+ 62a:	69 2b       	or	r22, r25
+ 62c:	c1 f4       	brne	.+48     	; 0x65e <PIR_READData+0x42>
+	{
+		
+		pir_readparam.PortName=PIR_ConfigParam[PIRID].pirPort;
+ 62e:	80 91 79 01 	lds	r24, 0x0179
+ 632:	89 83       	std	Y+1, r24	; 0x01
+		pir_readparam.Mask=1<<PIR_ConfigParam[PIRID].pirPin;
+ 634:	81 e0       	ldi	r24, 0x01	; 1
+ 636:	90 e0       	ldi	r25, 0x00	; 0
+ 638:	00 90 7a 01 	lds	r0, 0x017A
+ 63c:	02 c0       	rjmp	.+4      	; 0x642 <PIR_READData+0x26>
+ 63e:	88 0f       	add	r24, r24
+ 640:	99 1f       	adc	r25, r25
+ 642:	0a 94       	dec	r0
+ 644:	e2 f7       	brpl	.-8      	; 0x63e <PIR_READData+0x22>
+ 646:	8a 83       	std	Y+2, r24	; 0x02
+		
+		
+		readen_value=GPIO_Read(&pir_readparam);
+ 648:	ce 01       	movw	r24, r28
+ 64a:	01 96       	adiw	r24, 0x01	; 1
+ 64c:	0e 94 2c 02 	call	0x458	; 0x458 <GPIO_Read>
+		
+		if(readen_value==0)
+ 650:	21 e0       	ldi	r18, 0x01	; 1
+ 652:	90 e0       	ldi	r25, 0x00	; 0
+ 654:	81 11       	cpse	r24, r1
+ 656:	01 c0       	rjmp	.+2      	; 0x65a <PIR_READData+0x3e>
+ 658:	20 e0       	ldi	r18, 0x00	; 0
+ 65a:	82 2f       	mov	r24, r18
+ 65c:	00 c0       	rjmp	.+0      	; 0x65e <PIR_READData+0x42>
+		return 0;
+		else
+		return 1;
+	}
+	
+}
+ 65e:	0f 90       	pop	r0
+ 660:	0f 90       	pop	r0
+ 662:	df 91       	pop	r29
+ 664:	cf 91       	pop	r28
+ 666:	08 95       	ret
+
+00000668 <sound_READData>:
+
+
+uint16_t sound_READData(unsigned long int soundID)
+{
+	
+	if(soundID < sound_MAX_NUM)
+ 668:	62 30       	cpi	r22, 0x02	; 2
+ 66a:	71 05       	cpc	r23, r1
+ 66c:	81 05       	cpc	r24, r1
+ 66e:	91 05       	cpc	r25, r1
+ 670:	90 f4       	brcc	.+36     	; 0x696 <sound_READData+0x2e>
+	{
+		ADMUX &= 0xF0; // Clear the older channel that was read
+ 672:	27 b1       	in	r18, 0x07	; 7
+ 674:	20 7f       	andi	r18, 0xF0	; 240
+ 676:	27 b9       	out	0x07, r18	; 7
+		ADMUX |= sound_ConfigParam[soundID].soundPin; // Defines the new ADC channel to be read
+ 678:	27 b1       	in	r18, 0x07	; 7
+ 67a:	66 0f       	add	r22, r22
+ 67c:	77 1f       	adc	r23, r23
+ 67e:	fb 01       	movw	r30, r22
+ 680:	e4 58       	subi	r30, 0x84	; 132
+ 682:	fe 4f       	sbci	r31, 0xFE	; 254
+ 684:	80 81       	ld	r24, Z
+ 686:	82 2b       	or	r24, r18
+ 688:	87 b9       	out	0x07, r24	; 7
+		ADCSRA |= (1<<ADSC); // Starts a new conversion
+ 68a:	36 9a       	sbi	0x06, 6	; 6
+		while(ADCSRA & (1<<ADSC)); // Wait until the conversion is done
+ 68c:	36 99       	sbic	0x06, 6	; 6
+ 68e:	fe cf       	rjmp	.-4      	; 0x68c <sound_READData+0x24>
+		return ADCW; // Returns the ADC value of the chosen channel
+ 690:	84 b1       	in	r24, 0x04	; 4
+ 692:	95 b1       	in	r25, 0x05	; 5
+ 694:	08 95       	ret
+	}
+	else
+	{
+		return -1;
+ 696:	8f ef       	ldi	r24, 0xFF	; 255
+ 698:	9f ef       	ldi	r25, 0xFF	; 255
+	}
+}
+ 69a:	08 95       	ret
+
+0000069c <_exit>:
+ 69c:	f8 94       	cli
+
+0000069e <__stop_program>:
+ 69e:	ff cf       	rjmp	.-2      	; 0x69e <__stop_program>
