@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.malakfahim.myapplication" >
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
+
+
+        <activity
+            android:name=".Sign_up"
+            android:label="SIGN" >       //el esm elly byetketeb a3la el activity
+        </activity>
+
+
+
+        <activity
+            android:name=".Home"
+            android:label="HOME" >
+        </activity>
+
+
+        <activity
+            android:name=".Add_newchildren"
+            android:label="Add new children" >
+        </activity>
+
+
+        <activity
+            android:name=".Show_mychildren"
+            android:label="My children" >
+        </activity>
+
+        <activity
+            android:name=".Profile_ma5dom"
+            android:label="Profile" >
+        </activity>
+
+
+        <activity
+            android:name=".Info_child"
+            android:label="Info" >
+        </activity>
+
+
+
+
+
+    </application>
+
+</manifest>

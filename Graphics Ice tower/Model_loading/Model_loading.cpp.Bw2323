@@ -1,0 +1,1088 @@
+ // Include standard headers
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
+
+// Include GLEW
+#include <GL/glew.h>
+
+// Include GLFW
+#include <GL/glfw.h>
+
+// Include GLM
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/euler_angles.hpp>//rotation
+#include <glm/gtx/norm.hpp>//rotation
+
+
+
+using namespace glm;
+
+
+
+#include <common/shader.hpp>
+#include <common/texture.hpp>
+#include <common/controls.hpp>
+#include <common/objloader.hpp>
+#include <common/vboindexer.hpp>
+
+
+//Randomize numbers
+#include <time.h>
+
+
+float fall_speed=0.3f;
+int coll_step=-1;    //the index of the step that luigi may collide with it
+float mario_rotation=0.0f;
+int sec;   //for getting the time from system
+int l_sec=0;  //for last time rock generation
+float rocks_height;
+float rocks_fall_speed=0.05;
+bool Exist=0;    //indicating if rocks exist or not
+float Rotation_Factor;
+int Translate_Factor;
+float steps[100][2]; //first is the Rotation Factor , second is the Translation Factor (y axis)
+bool jumping;
+float Yold;
+float Ycurrent;
+bool UP;
+bool dead;
+
+
+float Generate_Stair(float pre)
+{
+    float next;
+    do
+    {
+    int Angle;
+    int sign;
+    //first generate a positive angle
+    // Generate number between 0->89 degree
+
+
+    Angle =(rand()%45)+45;
+    sign=rand()%2;
+
+    if (!sign)Angle=-Angle;
+
+
+    next= pre+(float(Angle)*3.14f)/180.0f;
+
+    if(next>=6.28f)
+        next-=6.28f;
+
+    if(next<0)
+        next+=6.28f;
+    } while (next+0.3930<0||next+1.1766>=6.28);
+
+    return next;
+
+}
+
+
+bool rocks_collision(float mario_rotation2) // to check if rocks hit mario or not
+{
+    if(abs(Ycurrent-rocks_height)<=0.5
+            &&(( mario_rotation2<=((5.0f*3.14f)/180.0f) ||mario_rotation2>=((355.0f*3.14f)/180.0f))
+            || ( mario_rotation2>=((85.0f*3.14f)/180.0f ) && mario_rotation2<=((105.0f*3.14f)/180.0f))
+            || ( mario_rotation2>=((175.0f*3.14f)/180.0f ) && mario_rotation2<=((185.0f*3.14f)/180.0f))
+               || ( mario_rotation2>=((265.0f*3.14f)/180.0f ) && mario_rotation2<=((275.0f*3.14f)/180.0f))))
+
+        return true;
+    else
+        return false;
+
+}
+
+void initializejump()
+{
+    jumping=false;
+    UP=true;
+}
+
+int det_collision()   //determine the step which may collide with mario
+{
+    for(int i=0;i<100;i++)
+    {
+        if(Ycurrent < steps[i][1])
+        {
+            return i-1;
+        }
+    }
+}
+
+
+void initialize_steps()
+{
+    srand(time(NULL));
+
+    steps[0][0]=2.2;
+    steps[0][1]=2;
+
+    for (int i=1;i<100;i++)
+    {
+    steps[i][0]= Generate_Stair(steps[i-1][0]);
+    steps[i][1]=steps[i-1][1]+2;
+    }
+
+}
+
+
+
+
+
+
+int main( void )
+{
+	// Initialise GLFW
+	if( !glfwInit() )
+	{
+		fprintf( stderr, "Failed to initialize GLFW\n" );
+		return -1;
+	}
+
+	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 2);
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 1);
+
+	// Open a window and create its OpenGL context
+    if( !glfwOpenWindow( 1366, 768, 0,0,0,0, 32,0, GLFW_FULLSCREEN ) )
+	{
+		fprintf( stderr, "Failed to open GLFW window.\n" );
+		glfwTerminate();
+		return -1;
+	}
+
+
+	// Initialize GLEW
+	if (glewInit() != GLEW_OK) {
+		fprintf(stderr, "Failed to initialize GLEW\n");
+		return -1;
+	}
+
+    glfwSetWindowTitle( "Hell Tower" );
+
+    glClearColor(0.2f, 0.0f, 0.0f, 0.0f);
+
+	// Enable depth test
+	glEnable(GL_DEPTH_TEST);
+	// Accept fragment if it closer to the camera than the former one
+	glDepthFunc(GL_LESS); 
+
+	// Cull triangles which normal is not towards the camera
+    //glEnable(GL_CULL_FACE);
+
+	// Create and compile our GLSL program from the shaders
+    GLuint programID = LoadShaders( "StandardShading.vertexshader", "StandardShading.fragmentshader" );
+
+	// Get a handle for our "MVP" uniform
+	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
+    GLuint ViewMatrixID = glGetUniformLocation(programID, "V");
+    GLuint ModelMatrixID = glGetUniformLocation(programID, "M");
+
+
+
+	// Get a handle for our buffers
+	GLuint vertexPosition_modelspaceID = glGetAttribLocation(programID, "vertexPosition_modelspace");
+	GLuint vertexUVID = glGetAttribLocation(programID, "vertexUV");
+    GLuint vertexNormal_modelspaceID = glGetAttribLocation(programID, "vertexNormal_modelspace");
+
+
+	// Load the texture
+    GLuint Texture = loadBMP_custom("luigiB.bmp");
+    GLuint Texture2 = loadBMP_custom("Stone_Sandstone_Ashlar_Light.bmp");
+    GLuint Texture3 = loadBMP_custom("FIRESTEP.bmp");
+    GLuint Texture4 = loadBMP_custom("volcano.bmp");
+    GLuint Texture5 = loadBMP_custom("rocks.bmp");
+
+
+	// Get a handle for our "myTextureSampler" uniform
+	GLuint TextureID  = glGetUniformLocation(programID, "myTextureSampler");
+
+    //get ambient light
+
+
+	// Read our .obj file
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec2> uvs;
+    std::vector<glm::vec3> normals; // Won't be used at the moment.
+    bool res = loadOBJ("luigi.obj", vertices, uvs, normals);
+
+	// Load it into a VBO
+
+	GLuint vertexbuffer;
+	glGenBuffers(1, &vertexbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
+
+	GLuint uvbuffer;
+	glGenBuffers(1, &uvbuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
+	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
+
+    GLuint normalbuffer;
+    glGenBuffers(1, &normalbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
+    glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
+
+//#2 objects
+
+    // Read our .obj file
+    std::vector<glm::vec3> vertices2;
+    std::vector<glm::vec2> uvs2;
+    std::vector<glm::vec3> normals2; // Won't be used at the moment.
+    bool res2 = loadOBJ("Cylinder_Hell.obj", vertices2, uvs2, normals2);
+
+    // Load it into a VBO
+
+    GLuint vertexbuffer2;
+    glGenBuffers(1, &vertexbuffer2);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer2);
+    glBufferData(GL_ARRAY_BUFFER, vertices2.size() * sizeof(glm::vec3), &vertices2[0], GL_STATIC_DRAW);
+
+    GLuint uvbuffer2;
+    glGenBuffers(1, &uvbuffer2);
+    glBindBuffer(GL_ARRAY_BUFFER, uvbuffer2);
+    glBufferData(GL_ARRAY_BUFFER, uvs2.size() * sizeof(glm::vec2), &uvs2[0], GL_STATIC_DRAW);
+
+
+    GLuint normalbuffer2;
+    glGenBuffers(1, &normalbuffer2);
+    glBindBuffer(GL_ARRAY_BUFFER, normalbuffer2);
+    glBufferData(GL_ARRAY_BUFFER, normals2.size() * sizeof(glm::vec3), &normals2[0], GL_STATIC_DRAW);
+
+
+// object #3 VBO and Decleration
+
+
+    // Read our .obj file
+    std::vector<glm::vec3> vertices3;
+    std::vector<glm::vec2> uvs3;
+    std::vector<glm::vec3> normals3; // Won't be used at the moment.
+    bool res3 = loadOBJ("Floor.obj", vertices3, uvs3, normals3);
+
+    // Load it into a VBO
+
+    GLuint vertexbuffer3;
+    glGenBuffers(1, &vertexbuffer3);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer3);
+    glBufferData(GL_ARRAY_BUFFER, vertices3.size() * sizeof(glm::vec3), &vertices3[0], GL_STATIC_DRAW);
+
+    GLuint uvbuffer3;
+    glGenBuffers(1, &uvbuffer3);
+    glBindBuffer(GL_ARRAY_BUFFER, uvbuffer3);
+    glBufferData(GL_ARRAY_BUFFER, uvs3.size() * sizeof(glm::vec2), &uvs3[0], GL_STATIC_DRAW);
+
+    GLuint normalbuffer3;
+    glGenBuffers(1, &normalbuffer3);
+    glBindBuffer(GL_ARRAY_BUFFER, normalbuffer3);
+    glBufferData(GL_ARRAY_BUFFER, normals3.size() * sizeof(glm::vec3), &normals3[0], GL_STATIC_DRAW);
+
+
+
+    //#4 object
+    // Read our .obj file
+    std::vector<glm::vec3> vertices4;
+    std::vector<glm::vec2> uvs4;
+    std::vector<glm::vec3> normals4; // Won't be used at the moment.
+    bool res4 = loadOBJ("step.obj", vertices4, uvs4, normals4);
+
+    // Load it into a VBO
+
+    GLuint vertexbuffer4;
+    glGenBuffers(1, &vertexbuffer4);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer4);
+    glBufferData(GL_ARRAY_BUFFER, vertices4.size() * sizeof(glm::vec3), &vertices4[0], GL_STATIC_DRAW);
+
+    GLuint uvbuffer4;
+    glGenBuffers(1, &uvbuffer4);
+    glBindBuffer(GL_ARRAY_BUFFER, uvbuffer4);
+    glBufferData(GL_ARRAY_BUFFER, uvs4.size() * sizeof(glm::vec2), &uvs4[0], GL_STATIC_DRAW);
+
+
+    GLuint normalbuffer4;
+    glGenBuffers(1, &normalbuffer4);
+    glBindBuffer(GL_ARRAY_BUFFER, normalbuffer4);
+    glBufferData(GL_ARRAY_BUFFER, normals4.size() * sizeof(glm::vec3), &normals4[0], GL_STATIC_DRAW);
+
+
+
+
+    //#5 object
+    // Read our .obj file
+    std::vector<glm::vec3> vertices5;
+    std::vector<glm::vec2> uvs5;
+    std::vector<glm::vec3> normals5; // Won't be used at the moment.
+    bool res5 = loadOBJ("background.obj", vertices5, uvs5, normals5);
+
+    // Load it into a VBO
+
+    GLuint vertexbuffer5;
+    glGenBuffers(1, &vertexbuffer5);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer5);
+    glBufferData(GL_ARRAY_BUFFER, vertices5.size() * sizeof(glm::vec3), &vertices5[0], GL_STATIC_DRAW);
+
+    GLuint uvbuffer5;
+    glGenBuffers(1, &uvbuffer5);
+    glBindBuffer(GL_ARRAY_BUFFER, uvbuffer5);
+    glBufferData(GL_ARRAY_BUFFER, uvs5.size() * sizeof(glm::vec2), &uvs5[0], GL_STATIC_DRAW);
+
+
+    GLuint normalbuffer5;
+    glGenBuffers(1, &normalbuffer5);
+    glBindBuffer(GL_ARRAY_BUFFER, normalbuffer5);
+    glBufferData(GL_ARRAY_BUFFER, normals5.size() * sizeof(glm::vec3), &normals5[0], GL_STATIC_DRAW);
+
+
+
+    //#6 objet (rock)
+    // Read our .obj
+    std::vector<glm::vec3> vertices6;
+    std::vector<glm::vec2> uvs6;
+    std::vector<glm::vec3> normals6; // Won't be used at the moment.
+    bool res6 = loadOBJ("rock.obj", vertices6, uvs6, normals6);
+
+    // Load it into a VBO
+
+    GLuint vertexbuffer6;
+    glGenBuffers(1, &vertexbuffer6);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer6);
+    glBufferData(GL_ARRAY_BUFFER, vertices6.size() * sizeof(glm::vec3), &vertices6[0], GL_STATIC_DRAW);
+
+    GLuint uvbuffer6;
+    glGenBuffers(1, &uvbuffer6);
+    glBindBuffer(GL_ARRAY_BUFFER, uvbuffer6);
+    glBufferData(GL_ARRAY_BUFFER, uvs6.size() * sizeof(glm::vec2), &uvs6[0], GL_STATIC_DRAW);
+
+
+
+
+    initialize_steps();
+
+
+
+
+
+
+
+
+    //Projection Matrix
+    glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+                                                   //(angle,aspect ratio,zNear,zFar)
+
+
+
+
+    // Use our shader
+
+    glUseProgram(programID);
+
+    double lastFrameTime = glfwGetTime();
+    float mario_rotation=3.14;
+
+    dead= false;
+    jumping =false;
+    Ycurrent=0;
+    UP=true;
+    float Ycamera=Ycurrent;
+    float factor=1;
+
+
+
+
+    do{
+
+      //calculate time
+        double currentTime = glfwGetTime();
+        float deltaTime = (float)(currentTime - lastFrameTime);
+        lastFrameTime = currentTime;
+
+
+
+if (!dead)
+{
+        //normal speed of camera
+            if (!(Ycurrent==Ycamera&&Ycurrent==0))
+            {
+            factor=((coll_step+2)/20)+1;
+            Ycamera+=factor*deltaTime;
+            if (Ycurrent>Ycamera)
+                Ycamera+=(Ycurrent-Ycamera)*deltaTime;
+            }
+}
+        //calculation of Camera matrix
+        glm::mat4 View       = glm::lookAt(
+                                    glm::vec3(0,Ycamera+4,12), // Camera is at (4,3,-3), in World Space
+                                    glm::vec3(0,Ycamera,0), // and looks at the origin
+                                    glm::vec3(0,1,0)  //Rotation of the camera
+                               );
+        View*=eulerAngleYXZ(-mario_rotation, 0.0f,0.0f);
+
+
+
+
+
+        if( coll_step>=0  &&   steps[coll_step][1]-Ycurrent>=0.5f) {
+        coll_step--;
+        }
+
+
+
+        if (Ycurrent<Ycamera-6)
+            dead=true;
+
+
+        //Calculate Mario Movement
+
+if (!dead)
+{
+        if (glfwGetKey( GLFW_KEY_RIGHT) == GLFW_PRESS)
+            mario_rotation += 3.14159f/2.0f * deltaTime;
+        else if (glfwGetKey(GLFW_KEY_LEFT ) == GLFW_PRESS)
+            mario_rotation -= 3.14159f/2.0f * deltaTime;
+}
+
+        if (mario_rotation>=6.28f)
+            mario_rotation-=6.28f;
+
+        if (mario_rotation< 0.0f)
+            mario_rotation+=6.28f;
+
+
+        //Calculate Mario Jumb
+        if (!dead&&!jumping&&glfwGetKey( GLFW_KEY_SPACE ) == GLFW_PRESS)
+        {
+            Yold=Ycurrent;
+            jumping=true;
+            UP=true;
+
+        }
+
+        if (jumping)
+        {
+            if (UP&&Ycurrent+3*deltaTime<=Yold+3)
+            { Ycurrent+=5*deltaTime;
+              coll_step++;
+            }
+            else UP=false;
+        }
+
+      //calculate if collision happens
+        if (!UP||!jumping)
+        {
+                        if (Ycurrent<=0)
+                            initializejump();
+                        else
+                        {
+            //handling collision with steps
+                       float edge1=0.3930+steps[coll_step][0];
+                       float edge2=1.1766 + steps[coll_step][0];
+
+
+                       if(Ycurrent > steps[coll_step][1])
+                       {
+
+                           if(Ycurrent-steps[coll_step][1]<=5.5*deltaTime && (mario_rotation > edge1 && mario_rotation < edge2))
+                           {    Ycurrent=steps[coll_step][1];
+                               initializejump();
+                           }
+                          else
+                           {
+                               Ycurrent-=5.5*deltaTime;
+                               if (Ycurrent==steps[coll_step][1])
+                                   initializejump();
+                            }
+                         }
+                       else if(!(mario_rotation > edge1 && mario_rotation < edge2))
+                         { Ycurrent-=5.5*deltaTime;
+                           if (Ycurrent==steps[coll_step][1])
+                               initializejump();
+
+                       }
+
+        }}
+
+
+        // Clear the screen
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+        glUseProgram(programID);
+        GLuint LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
+
+
+
+        if (!dead)
+        {
+
+        //#1 Mario object
+
+
+        // Model matrix
+        glm::mat4 RotationMatrix1 = eulerAngleYXZ(mario_rotation, 0.0f,0.0f);    //(*pai)/180
+        glm::mat4 TranslationMatrix1 = translate(mat4(), vec3(0.0f, Ycurrent,0.0f));
+        glm::mat4 ScalingMatrix1 = scale(mat4(), vec3(1.0f,1.0f,1.0f ));
+        glm::mat4 Model =ScalingMatrix1*TranslationMatrix1*RotationMatrix1;
+
+            // Our ModelViewProjection : multiplication of our 3 matrices
+        glm::mat4 MVP        = Projection* View * Model; // Remember, matrix multiplication is the other way around
+                                          //View of Camera
+
+        // Send our transformation to the currently bound shader,
+        // in the "MVP" uniform
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+        glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &Model[0][0]);
+        glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+
+
+        // Bind our texture in Texture Unit 0
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture);
+        // Set our "myTextureSampler" sampler to user Texture Unit 0
+        glUniform1i(TextureID, 0);
+
+        glm::vec3 lightPos = glm::vec3(0,-5,-13);
+        glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
+
+
+        // 1rst attribute buffer : vertices
+        glEnableVertexAttribArray(vertexPosition_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glVertexAttribPointer(
+            vertexPosition_modelspaceID,  // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // 2nd attribute buffer : UVs
+        glEnableVertexAttribArray(vertexUVID);
+        glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
+        glVertexAttribPointer(
+            vertexUVID,                   // The attribute we want to configure
+            2,                            // size : U+V => 2
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // 3rd attribute buffer : normals
+        glEnableVertexAttribArray(vertexNormal_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
+        glVertexAttribPointer(
+            vertexNormal_modelspaceID,    // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // Draw the triangles !
+        glDrawArrays(GL_TRIANGLES, 0, vertices.size() );
+
+
+}
+
+
+
+
+
+        // //////////////////////////////////////////////////////////////////////////////////////////
+        // #2 object Castle
+
+        // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+//        glm::mat4 ProjectionMatrix2 = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+                                               //(angle,aspect ratio,zNear,zFar)
+
+
+        // Model matrix
+        glm::mat4 RotationMatrix2 = eulerAngleYXZ(0.0f, 0.0f,0.0f);
+        glm::mat4 ScalingMatrix2 = scale(mat4(), vec3(1.0f, 1.0f, 1.0f));
+        glm::mat4 Translation2 = translate(mat4(), vec3(0.0f, 0.0f, 0.0f));
+
+        glm::mat4 ModelMatrix2 = RotationMatrix2 * ScalingMatrix2*Translation2;
+
+        glm::mat4 MVP2 = Projection * View * ModelMatrix2;
+
+        // Send our transformation to the currently bound shader,
+        // in the "MVP" uniform
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP2[0][0]);        
+        glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrix2[0][0]);
+        glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+
+
+
+
+        // Bind our texture in Texture Unit 0
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture2);
+        // Set our "myTextureSampler" sampler to user Texture Unit 0
+        glUniform1i(TextureID, 0);
+
+        // 1rst attribute buffer : vertices
+        glEnableVertexAttribArray(vertexPosition_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer2);
+        glVertexAttribPointer(
+            vertexPosition_modelspaceID,  // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // 2nd attribute buffer : UVs
+        glEnableVertexAttribArray(vertexUVID);
+        glBindBuffer(GL_ARRAY_BUFFER, uvbuffer2);
+        glVertexAttribPointer(
+            vertexUVID,                   // The attribute we want to configure
+            2,                            // size : U+V => 2
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // 3rd attribute buffer : normals
+        glEnableVertexAttribArray(vertexNormal_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, normalbuffer2);
+        glVertexAttribPointer(
+            vertexNormal_modelspaceID,    // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+
+        // Draw the triangles !
+        glDrawArrays(GL_TRIANGLES, 0, vertices.size() );
+
+
+
+
+
+        //#3 Floor
+        // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+//        glm::mat4 Projection3 = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+                                               //(angle,aspect ratio,zNear,zFar)
+
+
+
+        // Model matrix
+        glm::mat4 RotationMatrix3 = eulerAngleYXZ(0.0f, 0.0f,0.0f);    //(*pai)/180
+        glm::mat4 TranslationMatrix3 = translate(mat4(), vec3(0.0f,0.0f,0.0f));
+        glm::mat4 ScalingMatrix3 = scale(mat4(), vec3(1.0f, 1.0f, 1.0f));
+        glm::mat4 Model3 =ScalingMatrix3*TranslationMatrix3*RotationMatrix3;
+
+            // Our ModelViewProjection : multiplication of our 3 matrices
+        glm::mat4 MVP3        = Projection * View * Model3; // Remember, matrix multiplication is the other way around
+                                          //View of Camera
+
+        // Send our transformation to the currently bound shader,
+        // in the "MVP" uniform
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP3[0][0]);
+        glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &Model3[0][0]);
+        glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+
+        // Bind our texture in Texture Unit 0
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture2);
+        // Set our "myTextureSampler" sampler to user Texture Unit 0
+        glUniform1i(TextureID, 0);
+
+        // 1rst attribute buffer : vertices
+        glEnableVertexAttribArray(vertexPosition_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer3);
+        glVertexAttribPointer(
+            vertexPosition_modelspaceID,  // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // 2nd attribute buffer : UVs
+        glEnableVertexAttribArray(vertexUVID);
+        glBindBuffer(GL_ARRAY_BUFFER, uvbuffer3);
+        glVertexAttribPointer(
+            vertexUVID,                   // The attribute we want to configure
+            2,                            // size : U+V => 2
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // 3rd attribute buffer : normals
+        glEnableVertexAttribArray(vertexNormal_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, normalbuffer3);
+        glVertexAttribPointer(
+            vertexNormal_modelspaceID,    // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+
+        // Draw the triangles !
+        glDrawArrays(GL_TRIANGLES, 0, vertices.size() );
+
+
+
+
+
+
+
+
+        for (int i=0;i<64;i++)
+        {
+
+        //#4 Step
+        // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+      /*  glm::mat4 Projection4 = glm::perspective(45.0lastTime;f, 4.0f / 3.0f, 0.1f, 100.0f);
+                                               //(angle,aspect ratio,zNear,zFar)
+
+
+*/
+        glm::mat4 RotationMatrix4 = eulerAngleYXZ(steps[i][0], 0.0f,0.0f);    //(*pai)/180
+        glm::mat4 TranslationMatrix4 = translate(mat4(), vec3(0.0f, steps[i][1],0.0f));
+        glm::mat4 ScalingMatrix4 = scale(mat4(), vec3(1.0f, 1.0f, 1.0f));
+        glm::mat4 Model4 =ScalingMatrix4*TranslationMatrix4*RotationMatrix4;
+        glm::mat4 MVP4        = Projection * View * Model4; // Remember, matrix multiplication is the other way around
+
+
+
+
+        // Send our transformation to the currently bound shader,
+        // in the "MVP" uniform
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP4[0][0]);        
+        glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &Model4[0][0]);
+        glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+
+
+
+        // Bind our texture in Texture Unit 0
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture3);
+        // Set our "myTextureSampler" sampler to user Texture Unit 0
+        glUniform1i(TextureID, 0);
+
+        // 1rst attribute buffer : vertices
+        glEnableVertexAttribArray(vertexPosition_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer4);
+        glVertexAttribPointer(
+            vertexPosition_modelspaceID,  // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // 2nd attribute buffer : UVs
+        glEnableVertexAttribArray(vertexUVID);
+        glBindBuffer(GL_ARRAY_BUFFER, uvbuffer4);
+        glVertexAttribPointer(
+            vertexUVID,                   // The attribute we want to configure
+            2,                            // size : U+V => 2
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+        // 3rd attribute buffer : normals
+        glEnableVertexAttribArray(vertexNormal_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, normalbuffer4);
+        glVertexAttribPointer(
+            vertexNormal_modelspaceID,    // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+
+        // Draw the triangles !
+        glDrawArrays(GL_TRIANGLES, 0, vertices4.size() );
+        }
+
+
+
+
+
+
+
+
+
+        //#5 Background Object
+
+        // Model matrix
+        glm::mat4 RotationMatrix5 = eulerAngleYXZ(0.0f, 3.14f,0.0f);    //(*pai)/180
+        glm::mat4 TranslationMatrix5 = translate(mat4(), vec3(0.0f, 52.0f,0.0f));
+        glm::mat4 ScalingMatrix5 = scale(mat4(), vec3(1.0f, 1.0f, 1.0f));
+        glm::mat4 Model5 =ScalingMatrix5*TranslationMatrix5*RotationMatrix5;
+
+            // Our ModelViewProjection : multiplication of our 3 matrices
+        glm::mat4 MVP5        = Projection * View * Model5; // Remember, matrix multiplication is the other way around
+                                          //View of Camera
+
+        // Send our transformation to the currently bound shader,
+        // in the "MVP" uniform
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP5[0][0]);
+        glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &Model5[0][0]);
+        glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+
+
+        // Bind our texture in Texture Unit 0
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture4);
+        // Set our "myTextureSampler" sampler to user Texture Unit 0
+        glUniform1i(TextureID, 0);
+
+
+
+        // 1rst attribute buffer : vertices
+        glEnableVertexAttribArray(vertexPosition_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer5);
+        glVertexAttribPointer(
+            vertexPosition_modelspaceID,  // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // 2nd attribute buffer : UVs
+        glEnableVertexAttribArray(vertexUVID);
+        glBindBuffer(GL_ARRAY_BUFFER, uvbuffer5);
+        glVertexAttribPointer(
+            vertexUVID,                   // The attribute we want to configure
+            2,                            // size : U+V => 2
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // 3rd attribute buffer : normals
+        glEnableVertexAttribArray(vertexNormal_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, normalbuffer5);
+        glVertexAttribPointer(
+            vertexNormal_modelspaceID,    // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // Draw the triangles !
+        glDrawArrays(GL_TRIANGLES, 0, vertices.size() );
+
+
+
+
+
+
+
+
+
+
+        //#6 rock Objectt
+        // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+    //    glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+                                               //(angle,aspect ratio,zNear,zFar)
+        sec=clock()/1000;
+
+        if(sec-l_sec>1000)   // generate every minuite
+   {
+
+            l_sec=sec;
+            Exist=true;
+            rocks_height=Ycurrent+10.0f;
+   }
+
+    if(Exist&&!dead)    //draw if if it exists
+    {
+
+
+
+        //apply falling
+        rocks_height-=rocks_fall_speed;
+
+        for(int i=0;i<=3;i++)
+       {
+
+
+        // Model matrix
+        glm::mat4 RotationMatrix6 = eulerAngleYXZ(i*1.57f, 0.0f,0.0f);    //(*pai)/180
+        glm::mat4 TranslationMatrix6 = translate(mat4(), vec3(0.0f, rocks_height,0.0f));
+        glm::mat4 ScalingMatrix6 = scale(mat4(), vec3(1.0f, 1.0f, 1.0f));
+        glm::mat4 Model6 =ScalingMatrix6*TranslationMatrix6*RotationMatrix6;
+
+            // Our ModelViewProjection : multiplication of our 3 matrices
+        glm::mat4 MVP6        = Projection * View * Model6; // Remember, matrix multiplication is the other way around
+                                          //View of Camera
+
+        // Send our transformation to the currently bound shader,
+        // in the "MVP" uniform
+        glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP6[0][0]);
+
+
+        // Bind our texture in Texture Unit 0
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, Texture5);
+        // Set our "myTextureSampler" sampler to user Texture Unit 0
+        glUniform1i(TextureID, 0);
+
+
+
+        // 1rst attribute buffer : vertices
+        glEnableVertexAttribArray(vertexPosition_modelspaceID);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer6);
+        glVertexAttribPointer(
+            vertexPosition_modelspaceID,  // The attribute we want to configure
+            3,                            // size
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+        // 2nd attribute buffer : UVs
+        glEnableVertexAttribArray(vertexUVID);
+        glBindBuffer(GL_ARRAY_BUFFER, uvbuffer6);
+        glVertexAttribPointer(
+            vertexUVID,                   // The attribute we want to configure
+            2,                            // size : U+V => 2
+            GL_FLOAT,                     // type
+            GL_FALSE,                     // normalized?
+            0,                            // stride
+            (void*)0                      // array buffer offset
+        );
+
+
+        // Draw the triangles !
+        glDrawArrays(GL_TRIANGLES, 0, vertices6.size());
+
+     }
+        if(rocks_collision(mario_rotation))
+        {Exist=false;
+            dead=true;
+        }
+
+}
+
+
+
+
+if (dead)
+{
+//#7 Game over objects
+    // Model matrix
+    glm::mat4 RotationMatrix1 = eulerAngleYXZ(mario_rotation, 0.0f,0.0f);    //(*pai)/180
+    glm::mat4 TranslationMatrix1 = translate(mat4(), vec3(0.0f, Ycurrent,0.0f));
+    glm::mat4 ScalingMatrix1 = scale(mat4(), vec3(1.0f,1.0f,1.0f ));
+    glm::mat4 Model =ScalingMatrix1*TranslationMatrix1*RotationMatrix1;
+
+        // Our ModelViewProjection : multiplication of our 3 matrices
+    glm::mat4 MVP        = Projection* View * Model; // Remember, matrix multiplication is the other way around
+                                      //View of Camera
+
+    // Send our transformation to the currently bound shader,
+    // in the "MVP" uniform
+    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+    glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &Model[0][0]);
+    glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &View[0][0]);
+
+
+    // Bind our texture in Texture Unit 0
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, Texture);
+    // Set our "myTextureSampler" sampler to user Texture Unit 0
+    glUniform1i(TextureID, 0);
+
+    glm::vec3 lightPos = glm::vec3(0,-5,-13);
+    glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
+
+
+    // 1rst attribute buffer : vertices
+    glEnableVertexAttribArray(vertexPosition_modelspaceID);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glVertexAttribPointer(
+        vertexPosition_modelspaceID,  // The attribute we want to configure
+        3,                            // size
+        GL_FLOAT,                     // type
+        GL_FALSE,                     // normalized?
+        0,                            // stride
+        (void*)0                      // array buffer offset
+    );
+
+    // 2nd attribute buffer : UVs
+    glEnableVertexAttribArray(vertexUVID);
+    glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
+    glVertexAttribPointer(
+        vertexUVID,                   // The attribute we want to configure
+        2,                            // size : U+V => 2
+        GL_FLOAT,                     // type
+        GL_FALSE,                     // normalized?
+        0,                            // stride
+        (void*)0                      // array buffer offset
+    );
+
+    // 3rd attribute buffer : normals
+    glEnableVertexAttribArray(vertexNormal_modelspaceID);
+    glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
+    glVertexAttribPointer(
+        vertexNormal_modelspaceID,    // The attribute we want to configure
+        3,                            // size
+        GL_FLOAT,                     // type
+        GL_FALSE,                     // normalized?
+        0,                            // stride
+        (void*)0                      // array buffer offset
+    );
+
+    // Draw the triangles !
+    glDrawArrays(GL_TRIANGLES, 0, vertices.size() );
+}
+
+
+
+        glDisableVertexAttribArray(vertexPosition_modelspaceID);
+		glDisableVertexAttribArray(vertexUVID);
+        glDisableVertexAttribArray(vertexNormal_modelspaceID);
+
+
+		// Swap buffers
+		glfwSwapBuffers();
+
+	} // Check if the ESC key was pressed or the window was closed
+	while( glfwGetKey( GLFW_KEY_ESC ) != GLFW_PRESS &&
+           glfwGetWindowParam( GLFW_OPENED ));
+
+	// Cleanup VBO and shader
+	glDeleteBuffers(1, &vertexbuffer);
+	glDeleteBuffers(1, &uvbuffer);
+    glDeleteBuffers(1, &normalbuffer);
+	glDeleteProgram(programID);
+	glDeleteTextures(1, &TextureID);
+
+	// Close OpenGL window and terminate GLFW
+	glfwTerminate();
+
+	return 0;
+}
+
+

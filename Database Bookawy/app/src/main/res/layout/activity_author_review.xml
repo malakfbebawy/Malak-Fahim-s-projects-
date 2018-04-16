@@ -1,0 +1,156 @@
+
+    <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.antou.bookawytest.Add_offer_or_request">
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="@drawable/book">
+
+        <TextView android:text="Author information "
+            android:textColor="#1E88E5"
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:paddingBottom="16dp"
+            android:layout_gravity="center"
+
+            android:id="@+id/textView20" />
+
+    <ImageView
+        android:src="@drawable/download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:layout_gravity="center"
+        android:id="@+id/imageView3"
+         />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="more Info"
+                android:onClick="more_info"
+                android:id="@+id/button3" />
+
+
+
+            <Button
+                android:layout_weight="1"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Books"
+                android:id="@+id/button15"
+                android:onClick="GET_BOOKS"
+                />
+            <Button
+                android:layout_weight="1"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show Fields"
+                android:onClick="Show_fields"
+                android:id="@+id/button16"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView android:text="Author name:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#990000"
+                android:textSize="25dp"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:id="@+id/textView16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="...."
+                android:id="@+id/textView18" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView android:text="ID:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#990000"
+                android:textSize="25dp"
+                android:paddingRight="16dp"
+
+                android:paddingBottom="16dp"
+                android:id="@+id/textView19" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="...."
+                android:id="@+id/textView2"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView android:text="Nation:"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#990000"
+                android:textSize="25dp"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:id="@+id/textView22" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="...."
+                android:id="@+id/textView21" />
+
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:onClick="Edit_Author"
+            android:id="@+id/button4"
+            android:layout_gravity="center_horizontal"
+            />
+    </LinearLayout>
+    </ScrollView>

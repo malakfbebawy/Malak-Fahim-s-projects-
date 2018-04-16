@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.abdallahmohamed.bookawy.AdminLog"
+    android:orientation="vertical"
+    android:background="@drawable/book"
+    >
+
+    <EditText
+        android:id="@+id/Ausername_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="username"
+        android:ellipsize="start"
+        android:layout_marginTop="130dp"
+        android:gravity="center_horizontal"
+        android:inputType="text"
+        android:textSize="20sp"
+
+        />
+    <EditText
+        android:id="@+id/Apassword_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="password"
+        android:ellipsize="start"
+        android:gravity="center_horizontal"
+        android:inputType="text"
+        android:textSize="20sp"
+
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@null"
+        android:text="sign in"
+        android:layout_marginTop="16dp"
+        android:onClick="Submit"
+        android:id="@+id/B" />
+    <Button
+        android:layout_marginTop="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Forgot password ?"
+        android:background="@null"
+        android:id="@+id/forget_pass"
+        android:onClick="forgetPass"
+
+        />
+
+</LinearLayout>

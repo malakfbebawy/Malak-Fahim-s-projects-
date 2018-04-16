@@ -1,0 +1,22 @@
+# Alias OBJ Model File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+# File units = inches
+
+mtllib Floor.mtl
+
+g Mesh1 Model
+
+usemtl FrontColor
+v -2549.29 0 -2679
+vt 2549.29 2679
+vn 0 -1 -0
+v 2805.87 0 2813.06
+vt -2805.87 -2813.06
+v -2617.74 0 2744.61
+vt 2617.74 -2744.61
+f 1/1/1 2/2/1 3/3/1
+
+v 2874.32 0 -2610.55
+vt -2874.32 2610.55
+f 2/2/1 1/1/1 4/4/1
+

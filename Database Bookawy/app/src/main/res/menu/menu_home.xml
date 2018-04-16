@@ -1,0 +1,38 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.h.myproject.MainActivity">
+
+    <item
+        android:id="@+id/menu_Top"
+        android:orderInCategory="100"
+        android:title="Top"
+        android:icon="@drawable/top"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_profile"
+        android:orderInCategory="100"
+        android:icon="@drawable/user_menu"
+        app:showAsAction="always"
+        android:title="Profile"
+        />
+
+
+    <item
+        android:icon="@drawable/search"
+        android:id="@+id/menu_search"
+        android:orderInCategory="100"
+        android:title="Search"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_Public"
+        android:orderInCategory="100"
+        android:title="Public"
+        android:icon="@drawable/public2"
+        app:showAsAction="always"
+        />
+
+
+</menu>

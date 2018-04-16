@@ -1,0 +1,194 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/book"
+    tools:context="com.example.antou.bookawytest.Add_offer_or_request">
+
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    >
+
+    <TextView android:text="Info about the book "
+        android:textColor="#1E88E5"
+        android:textSize="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/textView36" />
+
+
+    <ImageView
+        android:src="@drawable/images"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="60dp"
+        android:id="@+id/imageView2"
+        android:contextClickable="false"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:numStars="5"
+        android:layout_gravity="center_horizontal"
+        android:stepSize="1"
+        android:rating="0"
+        android:paddingBottom="16dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView android:text="Book name:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#990000"
+            android:textSize="25dp"
+            android:paddingBottom="16dp"
+            android:id="@+id/textView10"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView8"
+            android:layout_marginLeft="16dp" />
+    </LinearLayout>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+        <TextView
+            android:text="Edition:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#990000"
+            android:textSize="25dp"
+            android:paddingBottom="16dp"
+            android:id="@+id/textView11"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView13"
+            android:layout_marginLeft="16dp"
+             />
+    </LinearLayout>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+        <TextView
+            android:text="Date of publish:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#990000"
+            android:textSize="25dp"
+            android:paddingBottom="16dp"
+            android:id="@+id/textView12"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView9"
+            android:layout_marginLeft="16dp" />
+    </LinearLayout>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+        <TextView
+            android:text="Author:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#990000"
+            android:textSize="25dp"
+            android:paddingBottom="16dp"
+            android:id="@+id/textView14"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView15"
+            android:layout_marginLeft="16dp" />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Fields :"
+            android:id="@+id/textView58"
+            android:layout_above="@+id/textView10"
+            android:textColor="#990000"
+            android:layout_marginBottom="16dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/textView59" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Edit book"
+            android:id="@+id/button6"
+            android:onClick="Edit_Book" />
+
+
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+
+            android:layout_height="wrap_content"
+            android:text="Add/Edit Comment"
+            android:onClick="Add_Edit_Comment"
+            android:id="@+id/button10"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+
+            android:layout_height="wrap_content"
+            android:text="Show Com"
+            android:onClick="Show_Comments"
+            android:id="@+id/button11" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Show Rating"
+            android:onClick="ShowRating"
+            android:id="@+id/button13"/>
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

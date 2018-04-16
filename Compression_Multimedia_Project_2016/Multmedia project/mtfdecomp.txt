@@ -1,0 +1,56 @@
+#include <iostream>
+#include <string>
+#include<cstring>
+#include<fstream>
+using namespace std;
+
+int main()
+{
+
+	string all_chars ;        //all 256 characters
+
+	 for (int i=-1; i<256; i++)
+	{
+		char temp = i;
+		all_chars += temp;
+	} 
+	
+	int k = 0;            //counter ye2llel el location
+	int location;       //el index bta3 el character f all_chars w da elly ba2rah mn el file   
+	char goal;          //The character which i look for  
+	int x;
+
+
+	ifstream ifile;
+	ifile.open("out_comp.txt");
+
+	
+
+	while (!ifile.eof())
+	{
+		if (ifile >> x)
+		{
+			location = x;
+
+			goal = all_chars[location];
+			cout << goal;
+
+			if (location != 0)
+			{
+				for (int j = location - 1; j >= 0; j--)
+				{
+					all_chars[location - k] = all_chars[j];
+					k++;
+				}
+				all_chars[0] = goal;
+				k = 0;
+			}
+		}
+	}
+
+
+
+	
+
+	
+}

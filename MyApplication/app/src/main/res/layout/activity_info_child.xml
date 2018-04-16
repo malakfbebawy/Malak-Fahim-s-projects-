@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pic2"
+    android:weightSum="1">
+
+
+    <EditText
+        android:layout_width="345dp"
+        android:layout_height="188dp"
+        android:hint="Information about the child"
+        android:layout_marginBottom="16dp"
+        android:inputType="text"
+        android:id="@+id/textview20"
+        android:ellipsize="start"
+        android:gravity="center_horizontal" />
+
+
+
+    <Button
+        android:id="@+id/done"
+        android:layout_width="168dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="Done"
+        android:layout_marginTop="16dp"
+        android:onClick="Done_info"
+
+        android:layout_weight="0.19"
+        android:layout_gravity="center_horizontal" />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView25"
+        android:textSize="30sp"
+        android:layout_gravity="center_horizontal"
+        />
+
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+#include <iostream>
+#include <string>
+#include<cstring>
+using namespace std;
+
+int main()
+{
+	string all_chars="abcdefghijklmnopqrstuvwxyz";
+	string test="bananaaa";
+	int k=0;            //counter ye2llel el location
+    int location;       //location of character when i finf it in the all_char array  
+	char goal;      //Goal character which I look for
+
+	cout<<all_chars<<endl;
+    
+	for(int i=0; i<test.size(); i++)
+	{
+		for(int m=0; m<all_chars.size(); m++)
+		{
+			if(test[i]==all_chars[m])
+			{
+				location=m;
+				cout<<location<<" ";
+				goal=all_chars[m];
+				break;
+			}
+		}
+		if(location!=0)
+		{
+			for(int j=location-1; j>=0; j--)
+			{
+				all_chars[location-k]=all_chars[j];
+				k++;
+			}
+			all_chars[0]=goal;
+			k=0;
+			cout<<all_chars<<endl;
+		}
+		else
+			cout<<all_chars<<endl;
+	}
+
+int x ;
+ cin>>x;
+
+}

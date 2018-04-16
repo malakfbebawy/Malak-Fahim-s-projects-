@@ -1,0 +1,62 @@
+#include <iostream>
+#include <string>
+#include<cstring>
+#include<fstream>
+using namespace std;
+
+int main()
+{
+
+	string all_chars;        //all 256 characters
+	string test;             // play 1
+    for (int i=-1; i<256; i++)
+	{
+		char temp = i;
+		all_chars += temp;
+	} 
+	
+        char x;
+		ifstream F("paly1.txt");
+		while (!F.eof())
+		{
+			if (F.read(&x, 1))
+			{
+				test += x;
+			}
+		}
+
+
+
+	int k=0;            //counter ye2llel el location
+    int location;       //location of character when i find it in the all_char array  
+	char goal;          //The character which i look for  
+
+	
+    for(int i=0; i<test.size(); i++)
+	{
+		for(int m=0; m<all_chars.size(); m++)
+		{
+			if(test[i]==all_chars[m])
+			{
+				location=m;
+				cout<<location<<" ";
+				goal=all_chars[m];
+				break;
+			}
+		}
+		if(location!=0)
+		{
+			for(int j=location-1; j>=0; j--)
+			{
+				all_chars[location-k]=all_chars[j];
+				k++;
+			}
+			all_chars[0]=goal;
+			k=0;
+			
+		}
+	}
+	
+
+
+}
