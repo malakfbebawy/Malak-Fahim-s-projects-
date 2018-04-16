@@ -1,0 +1,211 @@
+{E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/Fetch.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/Fetch.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity Fetch
+-- Compiling architecture logic of Fetch
+-- Loading entity neg_FF
+-- Loading package NUMERIC_STD
+-- Loading package MATH_REAL
+-- Loading entity ram
+-- Loading entity mux2X1
+-- Loading entity Reg
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/SP_ALU.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/SP_ALU.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity SP_Alu
+-- Compiling architecture my_SP_Alu of SP_Alu
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/reg_file.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/reg_file.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity reg_file
+-- Compiling architecture my_reg_file of reg_file
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/Expander.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/Expander.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity Expander
+-- Compiling architecture logic of Expander
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/forowrding_unit.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/forowrding_unit.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package NUMERIC_STD
+-- Compiling entity forword_unit
+-- Compiling architecture my_forword_unit of forword_unit
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/hazard_detection.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/hazard_detection.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package NUMERIC_STD
+-- Compiling entity hazard_detection
+-- Compiling architecture my_hazard_detection of hazard_detection
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/SP_module.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/SP_module.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity SP_module
+-- Compiling architecture my_SP_module of SP_module
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/MUXes.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/MUXes.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity mux2X1
+-- Compiling architecture my_mux2X1 of mux2X1
+-- Compiling entity mux4X1
+-- Compiling architecture my_mux4X1 of mux4X1
+-- Compiling entity mux_8_1
+-- Compiling architecture a_mux of mux_8_1
+-- Compiling entity mux16X1
+-- Compiling architecture my_mux16X1 of mux16X1
+-- Compiling entity mux4X1_1_bit
+-- Compiling architecture my_mux4X1_1_bit of mux4X1_1_bit
+-- Compiling entity mux2X1_1_bit
+-- Compiling architecture my_mux2X1_1_bit of mux2X1_1_bit
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/ALU.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/ALU.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity ALU
+-- Compiling architecture struct of ALU
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/Write_Back.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/Write_Back.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity WriteBack
+-- Compiling architecture WriteBack_Arch of WriteBack
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/my_nadder.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/my_nadder.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity my_nadder
+-- Compiling architecture a_my_nadder of my_nadder
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/Decoder nX(2^n).vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/Decoder nX(2^n).vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package MATH_REAL
+-- Compiling entity decoder
+-- Compiling architecture my_decoder of decoder
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/execution.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/execution.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity execution
+-- Compiling architecture my_execution of execution
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/conrol_unit.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/conrol_unit.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity controlUnit
+-- Compiling architecture myControlUnit of controlUnit
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/FF.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/FF.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity neg_FF
+-- Compiling architecture a_negFF of neg_FF
+-- Compiling entity FF
+-- Compiling architecture aFF of FF
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/system.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/system.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity system
+-- Compiling architecture my_system of system
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/my_adder.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/my_adder.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity my_adder
+-- Compiling architecture a_my_adder of my_adder
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/Register.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/Register.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity Reg
+-- Compiling architecture aRegister of Reg
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/decode_stage.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/decode_stage.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity Decode
+-- Compiling architecture DecodeStage of Decode
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/mem.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/mem.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity Memory
+-- Compiling architecture Memory_Arch of Memory
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/PC_Module.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/PC_Module.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity PC_Moudule
+-- Compiling architecture PC_Moudule_logic of PC_Moudule
+-- Loading entity neg_FF
+-- Loading entity FF
+-- Loading entity Expander
+-- Loading entity mux_8_1
+-- Loading entity Reg
+-- Loading entity my_nadder
+
+} {} {}} {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/ram.vhd} {1 {vcom -work work -2002 -explicit -stats=none {E:/CMP/3rd_year/2nd term/Arch/Phase2/VHDL Code/ram.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package MATH_REAL
+-- Compiling entity ram
+-- Compiling architecture sync_ram_a of ram
+
+} {} {}}

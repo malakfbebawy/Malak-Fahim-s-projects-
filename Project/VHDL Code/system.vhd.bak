@@ -1,0 +1,39 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity system is
+	port(
+		--inputs
+		sysClk, sysReset, INT, RESET: in std_logic;
+		IN_Port: in std_logic_vector(15 downto 0);
+		--output
+		OUT_Port: std_logic_vector(15 downto 0)
+		);
+end entity system;
+
+architecture my_system of system is
+	
+
+	component Decode is
+		port(
+				--inputs
+				sysClk, sysReset, WB_enable, EM_RETI, F_A0, F_A1, EM_stall, EM_IM: std_logic;
+				FD_reg, M_write_data, MW_Dst, EM_Dst, PC: in std_logic_vector(15 downto 0);
+				Exc_CCR, WB_address, EM_up_flags: in std_logic_vector(3 downto 0);
+				--outputs
+				DE_reg: out std_logic_vector(85 downto 0);
+				R8, R9: out std_logic_vector(15 downto 0);
+				CCR: out std_logic_vector(3 downto 0);
+				Flush: out std_logic
+			);
+	end component;
+	signal FD, mem_WD, PC, R8, R9: std_logic_vector(15 downto 0);
+	signal DE: std_logic_vector(85 downto 0);
+	signal EM: std_logic_vector(42 downto 0);
+	signal MW: std_logic_vector(39 downto 0);
+	signal F_A0, F_A1, F_B0, F_B1, F_PC0, F_PC1, flush: std_logic;
+	Execute_CCR, WB_Dst_address, decode_CCR: std_logic_vector(3 downto 0);
+	begin
+
+	decode_stage: Decode(sysClk, sysReset, MW(36), EM(3), F_A0, F_A1, EM(40), EM(41), FD, mem_WD, MW(31 downto 16), EM(29 downto 14), PC, Execute_CCR, WB_Dst_address, EM(13 downto 10), DE, R8, R9, decode_CCR, flush);
+end my_system;
